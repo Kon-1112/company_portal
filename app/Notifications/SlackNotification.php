@@ -1,0 +1,120 @@
+<?php
+
+namespace App\Notifications;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
+
+class SlackNotification extends Notification implements ShouldQueue
+{
+    use Queueable;
+
+    /**
+     * @var string チャンネル
+     */
+    protected string $channel;
+
+    /**
+     * @var string 名前
+     */
+    protected string $name;
+
+    /**
+     * @var string アイコン
+     */
+    protected string $icon;
+
+    /**
+     * @var string タイトル
+     */
+    protected string $title;
+
+    /**
+     * @var string メッセージ
+     */
+    protected string $message;
+
+    /**
+     * @var bool 成功か失敗か
+     */
+    protected bool $isSuccess;
+
+    /**
+     * コンストラクタ
+     * @param string $channel
+     * @param string $title
+     * @param string $message
+     */
+    public function __construct(string $channel, string $title, string $message)
+    {
+        $this->name = config('app.name');
+        $this->icon = config('slack.icon');
+        $this->title = $title;
+        $this->message = $message;
+        $this->channel = $channel;
+    }
+
+    /**
+     * 通知の送信チャンネル
+     * @param object $notifiable
+     * @return array<int, string>
+     */
+    public function via(object $notifiable): array
+    {
+        return ['slack', 'database'];
+    }
+
+    /**
+     * 通知の配列表現
+     * @param object $notifiable
+     * @return array<int, string>
+     */
+    public function toArray(object $notifiable): array
+    {
+        return [
+            'title' => $this->title,
+            'message' => $this->message,
+        ];
+    }
+
+    /**
+     * メール通知
+     * @param object $notifiable
+     * @return MailMessage
+     */
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->greeting('Hello!')
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
+    }
+
+    /**
+     * Slack通知
+     * @param object $notifiable
+     * @return SlackMessage
+     */
+    public function toSlack(object $notifiable): SlackMessage
+    {
+        $sendMessage = "【{$this->title}】\n{$this->message}";
+        return (new SlackMessage)
+            ->from(config('app.name'))
+            ->image(config('slack.icon'))
+            ->to($this->channel)
+            ->content($sendMessage)
+            ->attachment(function ($attachment)  {
+                $attachment->title('Invoice 1322')
+                    ->fields([
+                        'Title' => 'Server Expenses',
+                        'Amount' => '$1,234',
+                        'Via' => 'American Express',
+                        'Was Overdue' => ':-1:',
+                    ]);
+            });
+    }
+}

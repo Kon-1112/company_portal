@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Notifications\SlackChannelServiceProvider;
 use Illuminate\Support\Facades\Facade;
+use Laravel\Socialite\SocialiteServiceProvider;
 
 return [
 
@@ -185,6 +187,8 @@ return [
         /*
          * Package Service Providers...
          */
+        SocialiteServiceProvider::class,
+        SlackChannelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -209,6 +213,9 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Slack' => App\Services\Slack\SlackFacade::class,//追記
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

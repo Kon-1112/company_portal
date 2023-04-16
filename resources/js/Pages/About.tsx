@@ -4,7 +4,7 @@ import {Link} from "@inertiajs/react";
 const About = () => {
     return (
         <div>
-        <h1>Abouts</h1>
+        <h1>ようこそCompanyPortalへ</h1>
             <Link href={"/"}>d</Link>
             <br/>
             <Link href={"/about"}>about</Link>

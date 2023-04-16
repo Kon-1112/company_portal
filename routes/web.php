@@ -1,9 +1,14 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +29,17 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+// Google OAuth
+Route::get('/auth/google/redirect', function () {
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
+    return Socialite::driver('google')->redirect();
+});
+
+// Google OAuth callback
+Route::get('/auth/google/callback', [UserController::class, 'googleAuthCallBack']);
 
 Route::get('/about', function () {
     return Inertia::render('About');
