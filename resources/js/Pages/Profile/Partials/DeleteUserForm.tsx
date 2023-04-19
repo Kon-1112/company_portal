@@ -1,4 +1,4 @@
-import { useRef, useState, FormEventHandler } from 'react';
+import {useRef, useState, FormEventHandler, useEffect} from 'react';
 import DangerButton from '@/Components/DangerButton';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -19,16 +19,19 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
         reset,
         errors,
     } = useForm({
-        password: '',
+        u_password: '',
     });
 
     const confirmUserDeletion = () => {
         setConfirmingUserDeletion(true);
     };
 
+    /**
+     * ユーザー削除
+     * @param e
+     */
     const deleteUser: FormEventHandler = (e) => {
         e.preventDefault();
-
         destroy(route('profile.destroy'), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
@@ -37,59 +40,56 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
         });
     };
 
+    /**
+     * モーダルを閉じる
+     */
     const closeModal = () => {
         setConfirmingUserDeletion(false);
-
         reset();
     };
 
     return (
         <section className={`space-y-6 ${className}`}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Delete Account</h2>
-
+                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    アカウントを削除
+                </h2>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Once your account is deleted, all of its resources and data will be permanently deleted. Before
-                    deleting your account, please download any data or information that you wish to retain.
+                    アカウントが削除されると、データは全て永久に削除されます。<br/>
+                    アカウントを削除する前に、保持したいデータまたは情報をダウンロードしてください。
                 </p>
             </header>
-
-            <DangerButton onClick={confirmUserDeletion}>Delete Account</DangerButton>
-
+            <DangerButton onClick={confirmUserDeletion}>
+                アカウント削除
+            </DangerButton>
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
                 <form onSubmit={deleteUser} className="p-6">
                     <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        Are you sure you want to delete your account?
+                        本当にアカウントを削除してもよろしいですか？
                     </h2>
-
-                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        Once your account is deleted, all of its resources and data will be permanently deleted. Please
-                        enter your password to confirm you would like to permanently delete your account.
+                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        パスワードを入力してアカウントを削除してください。
                     </p>
-
                     <div className="mt-6">
-                        <InputLabel htmlFor="password" value="Password" className="sr-only" />
-
                         <TextInput
-                            id="password"
+                            id="u_password"
                             type="password"
-                            name="password"
+                            name="u_password"
                             ref={passwordInput}
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
+                            value={data.u_password}
+                            onChange={(e) => setData('u_password', e.target.value)}
                             className="mt-1 block w-3/4"
                             isFocused
-                            placeholder="Password"
+                            placeholder="パスワードを入力"
                         />
-
-                        <InputError message={errors.password} className="mt-2" />
+                        <InputError message={errors.u_password} className="mt-2" />
                     </div>
-
                     <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
-
+                        <SecondaryButton onClick={closeModal}>
+                            キャンセル
+                        </SecondaryButton>
                         <DangerButton className="ml-3" disabled={processing}>
-                            Delete Account
+                            アカウント削除
                         </DangerButton>
                     </div>
                 </form>

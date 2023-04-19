@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Notifications\SlackNotification;
-use App\Service\SlackService;
+use App\Notifications\LoginNotification;
 use App\Service\UserLogService;
 use App\Service\UserService;
 use Exception;
@@ -57,9 +56,9 @@ class UserController extends Controller
                 Auth::login($this->userService->createUser([
                     'u_google_id'           => $googleUser->getId(),
                     'u_email'               => $googleUser->getEmail(),
-                    'u_password'            => Hash::make($googleUser->getId()),
-                    'u_first_name'          => $googleUser['given_name'],
-                    'u_last_name'           => $googleUser['family_name'],
+                    'u_password'            => Hash::make('password'),
+                    'u_first_name'          => $googleUser['family_name'],
+                    'u_last_name'           => $googleUser['given_name'],
                     'u_profile_image_url'   => $googleUser->getAvatar(),
                     'u_email_verified_at'   => date('Y-m-d H:i:s'),
                 ]));
@@ -72,18 +71,26 @@ class UserController extends Controller
                  $sendMsg = 'ログインしました';
              }
 
+            $user = Auth::user();
+
             // ログインログを作成する
             $this->userLogService->createUserLog([
-                'ul_u_id'           => Auth::user()->u_id,
+                'ul_u_id'           => $user->u_id,
                 'ul_ip_address'     => request()->ip(),
                 'ul_user_agent'     => request()->header('User-Agent'),
                 'ul_login_at'       => date('Y-m-d H:i:s'),
             ]);
 
+
             // Slackに通知する
-            Auth::user()->notify(new SlackNotification('#random', $title, $sendMsg));
+            $user->notify(new LoginNotification('#random', $title, $sendMsg));
 
             DB::commit();
+
+            // アカウントの初期設定が完了していなければ設定画面に遷移する
+            if (empty($user->u_first_name_kana) || empty($user->u_last_name_kana) || $user->u_initial_password_flag) {
+                return redirect()->route('profile.edit');
+            }
             return redirect()->route('dashboard');
         }
         catch (Exception $e) {
