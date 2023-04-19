@@ -21,6 +21,8 @@ return new class extends Migration
             $table->timestamp('u_email_verified_at')->nullable();
             // パスワード
             $table->string('u_password');
+            // 初期パスワード判定フラグ
+            $table->boolean('u_initial_password_flag')->default(true);
             // Google ID
             $table->string('u_google_id')->nullable();
             // Slack ID
@@ -33,22 +35,16 @@ return new class extends Migration
             $table->string('u_first_name_kana')->nullable();
             // 名前(カナ)
             $table->string('u_last_name_kana')->nullable();
+            // ニックネーム
+            $table->string('u_nick_name')->nullable();
             // 血液型ID
             $table->smallInteger('u_blood_type_id')->nullable();
             // 性別
             $table->smallInteger('u_gender_id')->nullable();
             // 生年月日
             $table->date('u_birthday')->nullable();
-            // 電話番号(携帯)
-            $table->string('u_phone_number_mobile')->nullable();
-            // 電話場号(貸出)
-            $table->string('u_phone_number_rental')->nullable();
-            // 電話番号(緊急)
-            $table->string('u_phone_number_emergency')->nullable();
             // 自己紹介
             $table->text('u_introduction')->nullable();
-            // 通勤手段(その他)
-            $table->string('u_commute_other')->nullable();
             // プロフィール画像URL
             $table->string('u_profile_image_url')->nullable();
             // プロフィール画像パス
@@ -65,6 +61,12 @@ return new class extends Migration
             $table->boolean('u_delete_flag')->default(false);
             // ログイン失敗ロックフラグ(false:ロックしていない、true:ロックしている)
             $table->boolean('u_login_failure_lock_flag')->default(false);
+            // メールの受信設定フラグ(false:受信しない、true:受信する)
+            $table->boolean('u_receive_mail_flag')->default(true);
+            // Slackの受信設定フラグ(false:受信しない、true:受信する)
+            $table->boolean('u_receive_slack_flag')->default(true);
+            // 通知エリア表示設定フラグ(false:表示しない、true:表示する)
+            $table->boolean('u_show_notification_area_flag')->default(true);
 
             /*** 勤怠管理 ***/
             // 勤怠管理フラグ(false:管理しない、true:管理する)

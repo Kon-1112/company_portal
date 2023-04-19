@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 
-class SlackNotification extends Notification implements ShouldQueue
+class LoginNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -43,10 +43,15 @@ class SlackNotification extends Notification implements ShouldQueue
     protected bool $isSuccess;
 
     /**
+     * @var string ログイン日時
+     */
+    protected string $loginTime;
+
+    /**
      * コンストラクタ
-     * @param string $channel
-     * @param string $title
-     * @param string $message
+     * @param string $channel チャンネル
+     * @param string $title タイトル
+     * @param string $message メッセージ
      */
     public function __construct(string $channel, string $title, string $message)
     {
@@ -55,6 +60,7 @@ class SlackNotification extends Notification implements ShouldQueue
         $this->title = $title;
         $this->message = $message;
         $this->channel = $channel;
+        $this->loginTime = date('Y/m/d H:i:s');
     }
 
     /**
@@ -64,12 +70,12 @@ class SlackNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['slack', 'database'];
+        return ['slack', 'database', 'mail'];
     }
 
     /**
      * 通知の配列表現
-     * @param object $notifiable
+     * @param object $notifiable ユーザー
      * @return array<int, string>
      */
     public function toArray(object $notifiable): array
@@ -82,16 +88,17 @@ class SlackNotification extends Notification implements ShouldQueue
 
     /**
      * メール通知
-     * @param object $notifiable
-     * @return MailMessage
+     * @param object $notifiable ユーザー
+     * @return MailMessage メールメッセージ
      */
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->greeting('Hello!')
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->from('company.portal@spaceflow.com', 'Company Portal')
+            ->greeting($notifiable['u_first_name'] . ' ' . $notifiable['u_last_name'] . ' 様')
+            ->line($this->loginTime . 'に' . config("app.name") .'にログインされました。')
+            ->action('ログイン記録を確認する', url('/preferences/login-history'))
+            ->line('不審なログインと思われる場合はアカウント設定よりパスワードを変更してください。');
     }
 
     /**

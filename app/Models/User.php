@@ -192,4 +192,13 @@ class User extends Authenticatable
     {
         return config('slack.webhook_url');
     }
+
+    /**
+     * メール通知をルートする
+     * @return array|string
+     */
+    public function routeNotificationForMail(): array|string
+    {
+        return [ $this->u_email => $this->u_first_name . ' ' . $this->u_last_name ];
+    }
 }
