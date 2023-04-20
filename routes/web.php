@@ -1,12 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
 use App\Mail\TestMail;
-use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,7 +38,7 @@ Route::get('/auth/google/redirect', function () {
 });
 
 // Google OAuth callback
-Route::get('/auth/google/callback', [UserController::class, 'googleAuthCallBack']);
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'googleAuthCallBack']);
 
 
 Route::get('/about', function () {
