@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('t_user_logs', function (Blueprint $table) {
             // ID
             $table->bigIncrements('ul_id');
-            // ユーザーID
-            $table->string('ul_id');
+            // メールアドレス
+            $table->string('ul_email');
             // ログインIPアドレス
             $table->string('ul_ip_address', 45);
             // ログインユーザーエージェント

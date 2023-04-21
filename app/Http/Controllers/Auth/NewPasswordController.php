@@ -14,10 +14,15 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * パスワードリセットコントローラー
+ */
 class NewPasswordController extends Controller
 {
     /**
-     * Display the password reset view.
+     * パスワードリセットページを表示する
+     * @param Request $request
+     * @return Response
      */
     public function create(Request $request): Response
     {
@@ -28,9 +33,10 @@ class NewPasswordController extends Controller
     }
 
     /**
-     * Handle an incoming new password request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * パスワードをリセットする
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -40,9 +46,6 @@ class NewPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
@@ -55,9 +58,6 @@ class NewPasswordController extends Controller
             }
         );
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
         if ($status == Password::PASSWORD_RESET) {
             return redirect()->route('login')->with('status', __($status));
         }

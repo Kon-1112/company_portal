@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\LogoutUser;
+use App\Events\LoggedOut;
 use App\Service\UserLogService;
 use Exception;
 
@@ -27,11 +27,11 @@ class UserLogoutEventListener
 
     /**
      * リスナーの処理を実行する
-     * @param LogoutUser $event
+     * @param LoggedOut $event
      * @return void
      * @throws Exception
      */
-    public function handle(LogoutUser $event): void
+    public function handle(LoggedOut $event): void
     {
         $user = $event->user;
 

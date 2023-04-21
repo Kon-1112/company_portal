@@ -9,15 +9,20 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * メール確認コントローラー
+ */
 class EmailVerificationPromptController extends Controller
 {
     /**
-     * Display the email verification prompt.
+     * メール確認ページを表示する
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function __invoke(Request $request): RedirectResponse|Response
     {
         return $request->user()->hasVerifiedEmail()
-                    ? redirect()->intended(RouteServiceProvider::HOME)
-                    : Inertia::render('Auth/VerifyEmail', ['status' => session('status')]);
+            ? redirect()->intended(RouteServiceProvider::HOME)
+            : Inertia::render('Auth/VerifyEmail', ['status' => session('status')]);
     }
 }

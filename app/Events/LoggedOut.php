@@ -10,9 +10,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * ユーザーがログインした際に発火するイベント
+ * ユーザーがログアウトした際に発火するイベント
  */
-class LoginUser
+class LoggedOut
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

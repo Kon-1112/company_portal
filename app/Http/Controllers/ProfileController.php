@@ -48,12 +48,9 @@ class ProfileController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         if (Auth::check()) {
-//            $user = Auth::user();
-//            var_dump(Hash::check($request->password, $request->user()->password));
-//
-//            $request->validate([
-//                'password' => ['required', 'current_password'],
-//            ]);
+            $request->validate([
+                'password' => ['required', 'current_password'],
+            ]);
             $user = $request->user();
 
             Auth::logout();

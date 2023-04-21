@@ -5,31 +5,36 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * ユーザーログ
+ * @package App\Models
+ */
 class UserLogs extends Model
 {
+
     use HasFactory;
 
     /**
-     * @var string
+     * @var string テーブル名
      */
     protected $table = 't_user_logs';
 
     /**
-     * @var bool
+     * @var bool タイムスタンプを使用するかどうか
      */
     public $timestamps = false;
 
     /**
-     * @var string
+     * @var string プライマリキー
      */
     protected $primaryKey = 'ul_id';
 
     /**
-     * @var string[]
+     * @var string[] ホワイトリスト
      */
     protected $fillable = [
         'ul_id',
-        'ul_id',
+        'ul_email',
         'ul_ip_address',
         'ul_user_agent',
         'ul_device',

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Events\LoginUser;
-use App\Events\RegisteredUser;
+use App\Events\LoggedIn;
 use App\Http\Controllers\Controller;
 use App\Service\UserService;
 use Exception;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -54,10 +54,10 @@ class GoogleAuthController extends Controller
                     'email_verified_at'   => date('Y-m-d H:i:s'),
                 ]));
                 $user = Auth::user();
-                event(new RegisteredUser($user));
+                event(new Registered($user));
             } else {
                 Auth::login($user);
-                event(new LoginUser($user));
+                event(new LoggedIn($user));
             }
 
             DB::commit();
@@ -69,8 +69,6 @@ class GoogleAuthController extends Controller
         catch (Exception $e) {
             DB::rollBack();
             Log::alert($e);
-            var_dump($e);
-            exit();
             return redirect()->route('login');
         }
     }

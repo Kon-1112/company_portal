@@ -11,10 +11,14 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * パスワード確認コントローラー
+ */
 class ConfirmablePasswordController extends Controller
 {
     /**
-     * Show the confirm password view.
+     * パスワード確認ページを表示する
+     * @return Response
      */
     public function show(): Response
     {
@@ -22,7 +26,10 @@ class ConfirmablePasswordController extends Controller
     }
 
     /**
-     * Confirm the user's password.
+     * パスワードを確認する
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {

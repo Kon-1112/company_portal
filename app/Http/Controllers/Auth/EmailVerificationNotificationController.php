@@ -7,10 +7,15 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+/**
+ * メール確認通知コントローラー
+ */
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * Send a new email verification notification.
+     * メール確認通知を送信する
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
