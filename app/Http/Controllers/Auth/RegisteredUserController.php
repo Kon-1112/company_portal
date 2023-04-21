@@ -11,13 +11,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * ユーザー登録コントローラー
+ */
 class RegisteredUserController extends Controller
 {
+
     /**
-     * Display the registration view.
+     * ユーザー登録ページを表示する
      */
     public function create(): Response
     {
@@ -25,22 +30,23 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * ユーザーを登録する
+     * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'first_name'    => 'required|string|max:10',
+            'last_name'     => 'required|string|max:10',
+            'email'         => 'required|string|email|max:25|unique:'.User::class,
+            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'first_name'    => $request->first_name,
+            'last_name'     => $request->last_name,
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password),
         ]);
 
         event(new Registered($user));

@@ -6,10 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.5",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
+        "laravel/slack-notification-channel": "^2.5",
+        "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.8",
         "tightenco/ziggy": "^1.0"
     },

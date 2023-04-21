@@ -1,4 +1,4 @@
-import { useEffect, FormEventHandler } from 'react';
+import React, { useEffect, FormEventHandler } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -8,7 +8,8 @@ import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
+        first_name: '',
+        last_name: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -31,26 +32,39 @@ export default function Register() {
             <Head title="Register" />
 
             <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.name} className="mt-2" />
+                {/*横並び*/}
+                <div className="flex flex-row">
+                    <div>
+                        <InputLabel htmlFor="first_name" value="苗字" />
+                        <TextInput
+                            id="first_name"
+                            name="first_name"
+                            value={data.first_name}
+                            className="mt-1 block w-full"
+                            autoComplete="name"
+                            isFocused={true}
+                            onChange={(e :React.ChangeEvent<HTMLInputElement>) => setData('first_name', e.target.value)}
+                            required
+                        />
+                        <InputError message={errors.first_name} className="mt-2" />
+                    </div>
+                    <div>
+                        <InputLabel htmlFor="last_name" value="名前" />
+                        <TextInput
+                            id="last_name"
+                            name="last_name"
+                            value={data.last_name}
+                            className="mt-1 block w-full"
+                            autoComplete="name"
+                            isFocused={true}
+                            onChange={(e) => setData('last_name', e.target.value)}
+                            required
+                        />
+                        <InputError message={errors.last_name} className="mt-2" />
+                    </div>
                 </div>
-
                 <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
-
+                    <InputLabel htmlFor="email" value="メールアドレス" />
                     <TextInput
                         id="email"
                         type="email"
@@ -61,13 +75,10 @@ export default function Register() {
                         onChange={(e) => setData('email', e.target.value)}
                         required
                     />
-
                     <InputError message={errors.email} className="mt-2" />
                 </div>
-
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
+                    <InputLabel htmlFor="password" value="パスワード" />
                     <TextInput
                         id="password"
                         type="password"
@@ -78,13 +89,10 @@ export default function Register() {
                         onChange={(e) => setData('password', e.target.value)}
                         required
                     />
-
                     <InputError message={errors.password} className="mt-2" />
                 </div>
-
                 <div className="mt-4">
-                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
-
+                    <InputLabel htmlFor="password_confirmation" value="パスワード(確認)" />
                     <TextInput
                         id="password_confirmation"
                         type="password"
@@ -95,20 +103,17 @@ export default function Register() {
                         onChange={(e) => setData('password_confirmation', e.target.value)}
                         required
                     />
-
                     <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
-
                 <div className="flex items-center justify-end mt-4">
                     <Link
                         href={route('login')}
                         className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                     >
-                        Already registered?
+                        すでに登録済みですか？
                     </Link>
-
                     <PrimaryButton className="ml-4" disabled={processing}>
-                        Register
+                        登録
                     </PrimaryButton>
                 </div>
             </form>
