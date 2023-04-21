@@ -45,13 +45,13 @@ class GoogleAuthController extends Controller
 
             if (empty($user = $this->userService->getUserByEmail($googleUser->getEmail()))) {
                 Auth::login($this->userService->createUser([
-                    'u_google_id'           => $googleUser->getId(),
-                    'u_email'               => $googleUser->getEmail(),
-                    'u_password'            => Hash::make('password'),
-                    'u_first_name'          => $googleUser['family_name'],
-                    'u_last_name'           => $googleUser['given_name'],
-                    'u_profile_image_url'   => $googleUser->getAvatar(),
-                    'u_email_verified_at'   => date('Y-m-d H:i:s'),
+                    'google_id'           => $googleUser->getId(),
+                    'email'               => $googleUser->getEmail(),
+                    'password'            => Hash::make('password'),
+                    'first_name'          => $googleUser['family_name'],
+                    'last_name'           => $googleUser['given_name'],
+                    'profile_image_url'   => $googleUser->getAvatar(),
+                    'email_verified_at'   => date('Y-m-d H:i:s'),
                 ]));
                 $user = Auth::user();
                 event(new RegisteredUser($user));
@@ -61,7 +61,7 @@ class GoogleAuthController extends Controller
             }
 
             DB::commit();
-            if (!$user->u_initial_password_flag) {
+            if (!$user->initial_password_flag) {
                 return redirect()->route('profile.edit');
             }
             return redirect()->route('dashboard');

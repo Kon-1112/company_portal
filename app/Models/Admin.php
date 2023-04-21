@@ -35,6 +35,6 @@ class Admin extends Model
      * @var string[]
      */
     protected $casts = [
-        'u_email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 }

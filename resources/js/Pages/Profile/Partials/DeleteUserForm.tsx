@@ -19,7 +19,7 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
         reset,
         errors,
     } = useForm({
-        u_password: '',
+        password: '',
     });
 
     const confirmUserDeletion = () => {
@@ -72,17 +72,17 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
                     </p>
                     <div className="mt-6">
                         <TextInput
-                            id="u_password"
+                            id="password"
                             type="password"
-                            name="u_password"
+                            name="password"
                             ref={passwordInput}
-                            value={data.u_password}
-                            onChange={(e) => setData('u_password', e.target.value)}
+                            value={data.password}
+                            onChange={(e) => setData('password', e.target.value)}
                             className="mt-1 block w-3/4"
                             isFocused
                             placeholder="パスワードを入力"
                         />
-                        <InputError message={errors.u_password} className="mt-2" />
+                        <InputError message={errors.password} className="mt-2" />
                     </div>
                     <div className="mt-6 flex justify-end">
                         <SecondaryButton onClick={closeModal}>

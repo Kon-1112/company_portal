@@ -23,7 +23,7 @@ class User extends Authenticatable
     /**
      * @var string $primaryKey
      */
-    protected $primaryKey = 'u_id';
+    protected $primaryKey = 'id';
 
     /**
      * @var string $keyType
@@ -55,51 +55,51 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'u_id',
-        'u_email',
-        'u_email_verified_at',
-        'u_password',
-        'u_google_id',
-        'u_slack_id',
-        'u_first_name',
-        'u_last_name',
-        'u_first_name_kana',
-        'u_last_name_kana',
-        'u_blood_type_id',
-        'u_gender_id',
-        'u_birthday',
-        'u_phone_number_mobile',
-        'u_phone_number_rental',
-        'u_phone_number_emergency',
-        'u_introduction',
-        'u_commute_other',
-        'u_profile_image_url',
-        'u_profile_image_path',
-        'u_profile_image_name',
-        'u_department_id',
-        'u_hire_date',
-        'u_retire_date',
-        'u_delete_flag',
-        'u_login_failure_lock_flag',
-        'u_attendance_flag',
-        'u_attendance_auto_register_flag',
-        'u_attendance_status_id',
-        'u_seat_flag',
-        'u_seat_id',
-        'u_normal_seat_id',
-        'u_telework_flag',
-        'u_normal_workplace_flag',
-        'u_telework_request_flag',
-        'u_peer_bonus_flag',
-        'u_evaluation_flag',
-        'u_position_id',
-        'u_stage_id',
-        'u_evaluation_period_id',
-        'u_first_evaluation_period_start_date',
-        'u_meeting_flag',
-        'u_role_id',
-        'u_created_at',
-        'u_updated_at',
+        'id',
+        'email',
+        'email_verified_at',
+        'password',
+        'google_id',
+        'slack_id',
+        'first_name',
+        'last_name',
+        'first_name_kana',
+        'last_name_kana',
+        'blood_type_id',
+        'gender_id',
+        'birthday',
+        'phone_number_mobile',
+        'phone_number_rental',
+        'phone_number_emergency',
+        'introduction',
+        'commute_other',
+        'profile_image_url',
+        'profile_image_path',
+        'profile_image_name',
+        'department_id',
+        'hire_date',
+        'retire_date',
+        'delete_flag',
+        'login_failure_lock_flag',
+        'attendance_flag',
+        'attendance_auto_register_flag',
+        'attendance_status_id',
+        'seat_flag',
+        'seat_id',
+        'normal_seat_id',
+        'telework_flag',
+        'normal_workplace_flag',
+        'telework_request_flag',
+        'peer_bonus_flag',
+        'evaluation_flag',
+        'position_id',
+        'stage_id',
+        'evaluation_period_id',
+        'first_evaluation_period_start_date',
+        'meeting_flag',
+        'role_id',
+        'created_at',
+        'updated_at',
         'name'
     ];
 
@@ -115,21 +115,21 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'u_email_verified_at' => 'datetime',
-        'u_birthday' => 'date',
-        'u_hire_date' => 'date',
-        'u_retire_date' => 'date',
-        'u_attendance_flag' => 'boolean',
-        'u_attendance_auto_register_flag' => 'boolean',
-        'u_seat_flag' => 'boolean',
-        'u_telework_flag' => 'boolean',
-        'u_normal_workplace_flag' => 'boolean',
-        'u_telework_request_flag' => 'boolean',
-        'u_peer_bonus_flag' => 'boolean',
-        'u_evaluation_flag' => 'boolean',
-        'u_meeting_flag' => 'boolean',
-        'u_delete_flag' => 'boolean',
-        'u_login_failure_lock_flag' => 'boolean'
+        'email_verified_at' => 'datetime',
+        'birthday' => 'date',
+        'hire_date' => 'date',
+        'retire_date' => 'date',
+        'attendance_flag' => 'boolean',
+        'attendance_auto_register_flag' => 'boolean',
+        'seat_flag' => 'boolean',
+        'telework_flag' => 'boolean',
+        'normal_workplace_flag' => 'boolean',
+        'telework_request_flag' => 'boolean',
+        'peer_bonus_flag' => 'boolean',
+        'evaluation_flag' => 'boolean',
+        'meeting_flag' => 'boolean',
+        'delete_flag' => 'boolean',
+        'login_failure_lock_flag' => 'boolean'
     ];
 
     /**
@@ -145,7 +145,7 @@ class User extends Authenticatable
      */
     public function department(): BelongsTo
     {
-        return $this->belongsTo(Department::class, 'u_department_id');
+        return $this->belongsTo(Department::class, 'department_id');
     }
 
     /**
@@ -154,7 +154,7 @@ class User extends Authenticatable
      */
     public function position(): BelongsTo
     {
-        return $this->belongsTo(Position::class, 'u_position_id');
+        return $this->belongsTo(Position::class, 'position_id');
     }
 
     protected static function boot(): void
@@ -169,8 +169,8 @@ class User extends Authenticatable
                     $id .= $string[rand(0, strlen($string) - 1)];
                 }
                 // 既に存在するユーザーIDの場合は再度作成
-                if (!User::where('u_id', $id)->exists()) {
-                    $model->u_id = $id;
+                if (!User::where('id', $id)->exists()) {
+                    $model->id = $id;
                     break;
                 }
                 // 5回試行しても作成できなかった場合はエラーを返す
@@ -179,8 +179,8 @@ class User extends Authenticatable
                     throw new Exception('正しくユーザーが作成できませんでした。');
                 }
             }
-            $model->u_created_at = now()->format('Y-m-d H:i:s');
-            $model->u_updated_at = now()->format('Y-m-d H:i:s');
+            $model->created_at = now()->format('Y-m-d H:i:s');
+            $model->updated_at = now()->format('Y-m-d H:i:s');
         });
     }
 
@@ -199,6 +199,6 @@ class User extends Authenticatable
      */
     public function routeNotificationForMail(): array|string
     {
-        return [ $this->u_email => $this->u_first_name . ' ' . $this->u_last_name ];
+        return [ $this->email => $this->first_name . ' ' . $this->last_name ];
     }
 }

@@ -26,7 +26,7 @@ class UserLogService
     {
 //        // バリデーション
 //        $validator = Validator::make($data, [
-//            'ul_u_id' => 'required|integer',
+//            'ul_id' => 'required|integer',
 //            'ul_ip_address' => 'required|string',
 //            'ul_user_agent' => 'required|string',
 //            'ul_device' => 'required|string',

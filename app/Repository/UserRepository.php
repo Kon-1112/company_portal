@@ -47,7 +47,7 @@ class UserRepository
      */
     public function getByEmail(string $email): ?User
     {
-        return $this->model->where('u_email', '=', $email)->first();
+        return $this->model->where('email', '=', $email)->first();
     }
 
     /**
@@ -90,8 +90,8 @@ class UserRepository
      */
     public function search(array $data): Collection
     {
-        return $this->model->where('u_id', 'like', "%{$data['u_id']}%")
-            ->where('u_email', 'like', "%{$data['u_email']}%")
+        return $this->model->where('id', 'like', "%{$data['id']}%")
+            ->where('email', 'like', "%{$data['email']}%")
             ->get();
     }
 }

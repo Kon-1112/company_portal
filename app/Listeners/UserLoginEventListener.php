@@ -38,7 +38,7 @@ class UserLoginEventListener
 
         // ログインログを作成する
         $this->userLogService->createUserLog([
-            'ul_u_id'           => $user->u_id,
+            'ul_id'           => $user->id,
             'ul_ip_address'     => request()->ip(),
             'ul_user_agent'     => request()->header('User-Agent'),
             'ul_login_at'       => date('Y-m-d H:i:s'),

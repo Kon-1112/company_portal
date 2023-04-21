@@ -64,14 +64,14 @@ class UserService
     {
         // バリデーションルールの定義
         $rules = [
-            'u_email' => [
+            'email' => [
                 'required',
                 'email',
                 Rule::unique('t_users')
             ],
-            'u_password' => 'required|string',
-            'u_first_name' => 'required|string',
-            'u_last_name' => 'required|string',
+            'password' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
         ];
         // バリデーションの実行
         $validator = Validator::make($data, $rules);
@@ -80,7 +80,7 @@ class UserService
         }
 
         // パスワードのハッシュ化
-        $data['u_password'] = Hash::make($data['u_password']);
+        $data['password'] = Hash::make($data['password']);
 
         return $this->userRepository->create($data);
     }

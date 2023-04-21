@@ -9,7 +9,7 @@ import {useEffect} from "react";
 export default function Edit({ auth, mustVerifyEmail, status }: PageProps<{ mustVerifyEmail: boolean, status?: string }>) {
 
     useEffect(() => {
-        console.log(auth.user.u_initial_password_flag);
+        console.log(auth.user.initial_password_flag);
     }, []);
 
     return (
@@ -17,10 +17,10 @@ export default function Edit({ auth, mustVerifyEmail, status }: PageProps<{ must
             user={auth.user}
             header={
             <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {auth.user.u_initial_password_flag ?
+                {auth.user.initial_password_flag ?
                     <span>アカウント作成</span>:<span>アカウント設定</span>
                 }
-                {!auth.user.u_initial_password_flag ??
+                {!auth.user.initial_password_flag ??
                     <span>アカウント設定</span>
                 }
             </h2>}

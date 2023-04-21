@@ -29,7 +29,7 @@ class UserLogs extends Model
      */
     protected $fillable = [
         'ul_id',
-        'ul_u_id',
+        'ul_id',
         'ul_ip_address',
         'ul_user_agent',
         'ul_device',

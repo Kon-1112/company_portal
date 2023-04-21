@@ -54,13 +54,13 @@ class UserController extends Controller
             // ユーザーが存在しない場合は新規作成する
             if (empty($user = $this->userService->getUserByEmail($googleUser->getEmail()))) {
                 Auth::login($this->userService->createUser([
-                    'u_google_id'           => $googleUser->getId(),
-                    'u_email'               => $googleUser->getEmail(),
-                    'u_password'            => Hash::make('password'),
-                    'u_first_name'          => $googleUser['family_name'],
-                    'u_last_name'           => $googleUser['given_name'],
-                    'u_profile_image_url'   => $googleUser->getAvatar(),
-                    'u_email_verified_at'   => date('Y-m-d H:i:s'),
+                    'google_id'           => $googleUser->getId(),
+                    'email'               => $googleUser->getEmail(),
+                    'password'            => Hash::make('password'),
+                    'first_name'          => $googleUser['family_name'],
+                    'last_name'           => $googleUser['given_name'],
+                    'profile_image_url'   => $googleUser->getAvatar(),
+                    'email_verified_at'   => date('Y-m-d H:i:s'),
                 ]));
                 $title = '新規登録';
                 $sendMsg = '新規登録しました';
@@ -75,7 +75,7 @@ class UserController extends Controller
 
             // ログインログを作成する
             $this->userLogService->createUserLog([
-                'ul_u_id'           => $user->u_id,
+                'ul_id'           => $user->id,
                 'ul_ip_address'     => request()->ip(),
                 'ul_user_agent'     => request()->header('User-Agent'),
                 'ul_login_at'       => date('Y-m-d H:i:s'),
@@ -88,7 +88,7 @@ class UserController extends Controller
             DB::commit();
 
             // アカウントの初期設定が完了していなければ設定画面に遷移する
-            if (empty($user->u_first_name_kana) || empty($user->u_last_name_kana) || $user->u_initial_password_flag) {
+            if (empty($user->first_name_kana) || empty($user->last_name_kana) || $user->initial_password_flag) {
                 return redirect()->route('profile.edit');
             }
             return redirect()->route('dashboard');
@@ -111,7 +111,7 @@ class UserController extends Controller
         try {
             if (Auth::check()) {
                 $this->userLogService->createUserLog([
-                    'ul_u_id'           => Auth::user()->u_id,
+                    'ul_id'           => Auth::user()->id,
                     'ul_ip_address'     => request()->ip(),
                     'ul_user_agent'     => request()->header('User-Agent'),
                     'ul_logout_at'      => date('Y-m-d H:i:s'),

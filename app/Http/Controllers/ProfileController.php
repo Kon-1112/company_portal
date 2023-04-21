@@ -34,8 +34,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        if ($request->user()->isDirty('u_email')) {
-            $request->user()->u_email_verified_at = null;
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
         }
         $request->user()->save();
 
@@ -49,10 +49,10 @@ class ProfileController extends Controller
     {
         if (Auth::check()) {
 //            $user = Auth::user();
-//            var_dump(Hash::check($request->u_password, $request->user()->u_password));
+//            var_dump(Hash::check($request->password, $request->user()->password));
 //
 //            $request->validate([
-//                'u_password' => ['required', 'current_password'],
+//                'password' => ['required', 'current_password'],
 //            ]);
             $user = $request->user();
 

@@ -34,6 +34,6 @@ class UserLogRepository
      */
     public function getLatestLogsByUserId($userId, int $limit = 10): ?UserLogs
     {
-        return UserLogs::where('ul_u_id', '=', $userId)->orderBy('ul_login_at', 'desc')->limit($limit)->get();
+        return UserLogs::where('ul_id', '=', $userId)->orderBy('ul_login_at', 'desc')->limit($limit)->get();
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             // ID
             $table->bigIncrements('ul_id');
             // ユーザーID
-            $table->string('ul_u_id');
+            $table->string('ul_id');
             // ログインIPアドレス
             $table->string('ul_ip_address', 45);
             // ログインユーザーエージェント

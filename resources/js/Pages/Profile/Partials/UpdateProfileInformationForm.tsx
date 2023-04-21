@@ -13,25 +13,25 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const user: User = usePage<PageProps>().props.auth.user;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        u_first_name: user.u_first_name,
-        u_last_name: user.u_last_name,
-        u_first_name_kana: user.u_first_name_kana,
-        u_last_name_kana: user.u_last_name_kana,
-        u_nick_name: user.u_nick_name,
-        u_email: user.u_email,
-        u_blood_type_id: user.u_blood_type_id,
-        u_password: user.u_password,
-        u_initial_password_flag: user.u_initial_password_flag,
-        u_gender_id: user.u_gender_id,
-        u_birthday: user.u_birthday,
-        u_profile_image_url: user.u_profile_image_url,
-        u_image_data: File,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        first_name_kana: user.first_name_kana,
+        last_name_kana: user.last_name_kana,
+        nick_name: user.nick_name,
+        email: user.email,
+        blood_type_id: user.blood_type_id,
+        password: user.password,
+        initial_password_flag: user.initial_password_flag,
+        gender_id: user.gender_id,
+        birthday: user.birthday,
+        profile_image_url: user.profile_image_url,
+        image_data: File,
     });
 
     useEffect(() => {
         // パスワードの初期化フラグが立っている場合はパスワードを空にする
-        if (data.u_initial_password_flag) {
-            data.u_password = "";
+        if (data.initial_password_flag) {
+            data.password = "";
         }
     },[]);
 
@@ -50,105 +50,105 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <div className="mt-6 space-y-6">
                     <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                         <div>
-                            <InputLabel htmlFor="u_first_name" value="苗字" />
+                            <InputLabel htmlFor="first_name" value="苗字" />
                             <TextInput
-                                id="u_first_name"
+                                id="first_name"
                                 className="mt-1 block w-full"
-                                value={data.u_first_name}
-                                onChange={(e) => setData('u_first_name', e.target.value)}
+                                value={data.first_name}
+                                onChange={(e) => setData('first_name', e.target.value)}
                                 autoComplete="family-name"
                                 placeholder="山田"
                                 required
                             />
-                            <InputError className="mt-2" message={errors.u_first_name} />
+                            <InputError className="mt-2" message={errors.first_name} />
                         </div>
                         <div>
                             <InputLabel htmlFor="name" value="名前" />
                             <TextInput
                                 id="name"
                                 className="mt-1 block w-full"
-                                value={data.u_last_name}
-                                onChange={(e) => setData('u_last_name', e.target.value)}
+                                value={data.last_name}
+                                onChange={(e) => setData('last_name', e.target.value)}
                                 autoComplete="given-name"
                                 placeholder="太郎"
                                 required
                             />
-                            <InputError className="mt-2" message={errors.u_last_name} />
+                            <InputError className="mt-2" message={errors.last_name} />
                         </div>
                     </div>
                     <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                         <div>
-                            <InputLabel htmlFor="u_first_name_kana" value="苗字(カナ)" />
+                            <InputLabel htmlFor="first_name_kana" value="苗字(カナ)" />
                             <TextInput
-                                id="u_first_name_kana"
+                                id="first_name_kana"
                                 className="mt-1 block w-full"
-                                value={data.u_first_name_kana || ''}
-                                onChange={(e) => setData('u_first_name_kana', e.target.value)}
+                                value={data.first_name_kana || ''}
+                                onChange={(e) => setData('first_name_kana', e.target.value)}
                                 placeholder="ヤマダ"
                                 required
                             />
-                            <InputError className="mt-2" message={errors.u_first_name_kana} />
+                            <InputError className="mt-2" message={errors.first_name_kana} />
                         </div>
                         <div>
                             <InputLabel htmlFor="name" value="名前(カナ)" />
                             <TextInput
-                                id="u_last_name_kana"
+                                id="last_name_kana"
                                 className="mt-1 block w-full"
-                                value={data.u_last_name_kana || ''}
-                                onChange={(e) => setData('u_last_name_kana', e.target.value)}
+                                value={data.last_name_kana || ''}
+                                onChange={(e) => setData('last_name_kana', e.target.value)}
                                 placeholder="タロウ"
                                 required
                             />
-                            <InputError className="mt-2" message={errors.u_last_name_kana} />
+                            <InputError className="mt-2" message={errors.last_name_kana} />
                         </div>
                     </div>
                     <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                         <div>
                             <InputLabel htmlFor="name" value="ニックネーム" />
                             <TextInput
-                                id="u_nick_name"
+                                id="nick_name"
                                 className="mt-1 block w-full"
-                                value={data.u_nick_name || ''}
-                                onChange={(e) => setData('u_nick_name', e.target.value)}
+                                value={data.nick_name || ''}
+                                onChange={(e) => setData('nick_name', e.target.value)}
                                 placeholder="タロ"
                             />
-                            <InputError className="mt-2" message={errors.u_nick_name} />
+                            <InputError className="mt-2" message={errors.nick_name} />
                         </div>
                         <div>
-                            <InputLabel htmlFor="u_gender_id" value="性別" />
+                            <InputLabel htmlFor="gender_id" value="性別" />
                             <SelectInput
-                                id="u_gender_id"
+                                id="gender_id"
                                 className="mt-1 block w-full"
-                                value={data.u_gender_id ?? 0}
+                                value={data.gender_id ?? 0}
                                 options={[
                                     {id: 0, label: '選択してください'},
                                     {id: 1, label: '男性'},
                                     {id: 2, label: '女性'},
                                     {id: 3, label: 'その他'},
                                 ]}
-                                onChange={(e: any) => setData('u_gender_id', e.target.value)}
+                                onChange={(e: any) => setData('gender_id', e.target.value)}
                                 required
                             />
                         </div>
                     </div>
                     <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                         <div>
-                            <InputLabel htmlFor="u_birthday" value="生年月日" />
+                            <InputLabel htmlFor="birthday" value="生年月日" />
                             <DateInput
-                                id="u_birthday"
+                                id="birthday"
                                 className="mt-1 block w-full"
-                                value={data.u_birthday ?? ''}
-                                onChange={(e) => setData('u_birthday', e.target.value)}
+                                value={data.birthday ?? ''}
+                                onChange={(e) => setData('birthday', e.target.value)}
                                 required
                             />
-                            <InputError className="mt-2" message={errors.u_birthday} />
+                            <InputError className="mt-2" message={errors.birthday} />
                         </div>
                         <div>
                             <InputLabel htmlFor="email" value="血液型" />
                             <SelectInput
-                                id="u_blood_type"
+                                id="blood_type"
                                 className="mt-1 block w-full"
-                                value={data.u_blood_type_id ?? 0}
+                                value={data.blood_type_id ?? 0}
                                 options={[
                                     {id: 0, label: '選択してください'},
                                     {id: 1, label: 'A型'},
@@ -157,10 +157,10 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                                     {id: 4, label: 'AB型'},
                                     {id: 5, label: '不明'},
                                 ]}
-                                onChange={(e: any) => setData('u_blood_type_id', e.target.value)}
+                                onChange={(e: any) => setData('blood_type_id', e.target.value)}
                                 required
                             />
-                            <InputError className="mt-2" message={errors.u_blood_type_id} />
+                            <InputError className="mt-2" message={errors.blood_type_id} />
                         </div>
                     </div>
                     <div>
@@ -169,34 +169,34 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                             id="email"
                             type="email"
                             className="mt-1 block w-full"
-                            value={data.u_email}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData('u_email', e.target.value)}
+                            value={data.email}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData('email', e.target.value)}
                             required
                             autoComplete="email"
                         />
-                        <InputError className="mt-2" message={errors.u_email} />
+                        <InputError className="mt-2" message={errors.email} />
                     </div>
-                    {data.u_initial_password_flag && (
+                    {data.initial_password_flag && (
                         <div>
-                            <InputLabel htmlFor="u_password" value="パスワード" />
+                            <InputLabel htmlFor="password" value="パスワード" />
                             <TextInput
-                                id="u_password"
+                                id="password"
                                 type="password"
                                 className="mt-1 block w-full"
-                                value={data.u_password}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData('u_password', e.target.value)}
+                                value={data.password}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData('password', e.target.value)}
                                 required
                                 autoComplete="new-password"
                                 placeholder="初回に限りパスワードを設定してください"
                             />
-                            <InputError className="mt-2" message={errors.u_password} />
+                            <InputError className="mt-2" message={errors.password} />
                             <p className="text-sm mt-2 text-gray-800 dark:text-gray-200">
                                 ※パスワードは8文字以上で<b>半角英数字をそれぞれ1文字以上</b>含めてください。
                             </p>
                         </div>
                     )}
 
-                    {mustVerifyEmail && user.u_email_verified_at === null && (
+                    {mustVerifyEmail && user.email_verified_at === null && (
                         <div>
                             <p className="text-sm mt-2 text-gray-800 dark:text-gray-200">
                                 Your email address is unverified.
@@ -221,7 +221,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
                     {/*ユーザーの画像アイコンを表示する*/}
                     <div className="text-center my-auto">
-                        <img src={data.u_profile_image_url} alt={"アカウント画像"}/>
+                        <img src={data.profile_image_url} alt={"アカウント画像"}/>
                     </div>
 
                     {/*ユーザーの画像設定*/}
@@ -243,12 +243,12 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                                             const file: File|undefined = e.target.files?.[0];
                                             if (file) {
                                                 // @ts-ignore
-                                                setData('u_image_data', file);
+                                                setData('image_data', file);
                                             }
                                         }
                                     }
                                     />
-                                    <p className="pl-1">{data.u_image_data?.name}</p>
+                                    <p className="pl-1">{data.image_data?.name}</p>
                                 </label>
                                 <p className="pl-1"> or ドラッグアンドドロップ</p>
                             </div>

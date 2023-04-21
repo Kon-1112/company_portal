@@ -95,7 +95,7 @@ class LoginNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->from('company.portal@spaceflow.com', 'Company Portal')
-            ->greeting($notifiable['u_first_name'] . ' ' . $notifiable['u_last_name'] . ' 様')
+            ->greeting($notifiable['first_name'] . ' ' . $notifiable['last_name'] . ' 様')
             ->line($this->loginTime . 'に' . config("app.name") .'にログインされました。')
             ->action('ログイン記録を確認する', url('/preferences/login-history'))
             ->line('不審なログインと思われる場合はアカウント設定よりパスワードを変更してください。');

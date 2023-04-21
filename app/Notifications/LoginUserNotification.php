@@ -44,7 +44,7 @@ class LoginUserNotification extends Notification
     {
         return (new MailMessage)
             ->subject('【' . config('app.name') . '】ログイン検知のお知らせ')
-            ->greeting($notifiable['u_first_name'] . ' ' . $notifiable['u_last_name'] . ' 様')
+            ->greeting($notifiable['first_name'] . ' ' . $notifiable['last_name'] . ' 様')
             ->line($this->nowDateTime . 'に' . config('app.name') . 'にログインされました。')
             ->action('ログイン記録を確認する', url('/preferences/login-history'))
             ->line('不審なログインと思われる場合はアカウント設定よりパスワードを変更してください。');
