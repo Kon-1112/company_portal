@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Notifications\LoginNotification;
+use App\Notifications\SlackNotification;
 use Illuminate\Notifications\Notifiable;
 
 class SeatService

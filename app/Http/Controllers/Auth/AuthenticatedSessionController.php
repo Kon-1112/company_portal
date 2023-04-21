@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\LoggedIn;
+use App\Events\LoggedOut;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -43,9 +44,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if (Auth::check()) {
-            event(new LoggedIn(Auth::user()));
-        }
+        event(new LoggedIn($request->user()));
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -57,6 +56,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        event(new LoggedOut($request->user()));
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

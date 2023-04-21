@@ -29,15 +29,4 @@ class LoggedIn
     {
         $this->user = $user;
     }
-
-    /**
-     * ブロードキャストのチャンネルを取得する
-     * @return array<int, Channel>
-     */
-    public function broadcastOn(): array
-    {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
-    }
 }

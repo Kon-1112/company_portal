@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 
-class LoginNotification extends Notification implements ShouldQueue
+class SlackNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -65,25 +65,11 @@ class LoginNotification extends Notification implements ShouldQueue
 
     /**
      * 通知の送信チャンネル
-     * @param object $notifiable
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    public function via(): array
     {
         return ['slack', 'database', 'mail'];
-    }
-
-    /**
-     * 通知の配列表現
-     * @param object $notifiable ユーザー
-     * @return array<int, string>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            'title' => $this->title,
-            'message' => $this->message,
-        ];
     }
 
     /**

@@ -2,14 +2,15 @@
 
 namespace App\Listeners;
 
-use App\Events\LoggedOut;
+use App\Events\LoggedIn;
+use App\Notifications\Auth\LoggedInNotification;
 use App\Service\UserLogService;
 use Exception;
 
 /**
- * ユーザーがログアウトした際に発火するイベント
+ * ユーザーがログインした際に発火するイベント
  */
-class UserLogoutEventListener
+class LoggedInEventListener
 {
     /**
      * @var UserLogService $userLogService ユーザーログサービス
@@ -27,20 +28,19 @@ class UserLogoutEventListener
 
     /**
      * リスナーの処理を実行する
-     * @param LoggedOut $event
+     * @param LoggedIn $event
      * @return void
      * @throws Exception
      */
-    public function handle(LoggedOut $event): void
+    public function handle(LoggedIn $event): void
     {
-        $user = $event->user;
-
-        // ログインログを作成する
         $this->userLogService->createUserLog([
-            'ul_id'           => $user->id,
+            'ul_email'          => $event->user->email,
             'ul_ip_address'     => request()->ip(),
             'ul_user_agent'     => request()->header('User-Agent'),
-            'ul_logout_at'      => date('Y-m-d H:i:s'),
+            'ul_login_at'       => date('Y-m-d H:i:s'),
         ]);
+
+        $event->user->notify(new LoggedInNotification());
     }
 }

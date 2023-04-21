@@ -53,14 +53,18 @@ class GoogleAuthController extends Controller
                     'profile_image_url'   => $googleUser->getAvatar(),
                     'email_verified_at'   => date('Y-m-d H:i:s'),
                 ]));
+
                 $user = Auth::user();
+
                 event(new Registered($user));
             } else {
                 Auth::login($user);
+
                 event(new LoggedIn($user));
             }
 
             DB::commit();
+
             if (!$user->initial_password_flag) {
                 return redirect()->route('profile.edit');
             }
@@ -68,7 +72,7 @@ class GoogleAuthController extends Controller
         }
         catch (Exception $e) {
             DB::rollBack();
-            Log::alert($e);
+            Log::alert($e->getMessage());
             return redirect()->route('login');
         }
     }

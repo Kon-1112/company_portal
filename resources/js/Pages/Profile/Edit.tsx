@@ -8,10 +8,6 @@ import {useEffect} from "react";
 
 export default function Edit({ auth, mustVerifyEmail, status }: PageProps<{ mustVerifyEmail: boolean, status?: string }>) {
 
-    useEffect(() => {
-        console.log(auth.user.initial_password_flag);
-    }, []);
-
     return (
         <AuthenticatedLayout
             user={auth.user}

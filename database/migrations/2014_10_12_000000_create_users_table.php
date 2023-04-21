@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('initial_password_flag')->default(true);
             // Google ID
             $table->string('google_id')->nullable();
-            // Slack ID
+            // SeatManagement ID
             $table->string('slack_id')->nullable();
             // 苗字
             $table->string('first_name');
@@ -119,12 +119,9 @@ return new class extends Migration
             $table->string('role_id')->nullable();
 
             /*** その他 ***/
-            // 作成日時
-            $table->timestamp('created_at');
-            // 更新日時
-            $table->timestamp('updated_at');
-            // リフレッシュトークン
-//            $table->rememberToken();
+            $table->timestamps();
+
+            $table->rememberToken();
         });
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Auth;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 /**
  * ユーザーがログインした際に送信する通知
  */
-class LoginUserNotification extends Notification
+class LoggedInNotification extends Notification
 {
     use Queueable;
 
@@ -28,7 +28,7 @@ class LoginUserNotification extends Notification
 
     /**
      * チャンネルを取得する
-     * @return string[]
+     * @return string[] チャンネル
      */
     public function via(): array
     {
@@ -37,8 +37,8 @@ class LoginUserNotification extends Notification
 
     /**
      * メール通知を設定する
-     * @param object $notifiable
-     * @return MailMessage
+     * @param object $notifiable 通知先
+     * @return MailMessage メールメッセージ
      */
     public function toMail(object $notifiable): MailMessage
     {

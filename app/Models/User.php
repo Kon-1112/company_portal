@@ -11,39 +11,37 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * ユーザーモデル
+ */
 class User extends Authenticatable
 {
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * @var string $table
+     * @var string $table テーブル名
      */
     protected $table = 't_users';
 
     /**
-     * @var string $primaryKey
+     * @var string $primaryKey プライマリキー
      */
     protected $primaryKey = 'id';
 
     /**
-     * @var string $keyType
+     * @var string $keyType キーの型
      */
     protected $keyType = 'string';
 
     /**
-     * @var bool $timestamps
-     */
-    public $timestamps = false;
-
-    /**
-     * インクリメントを無効にする
-     * @var bool
+     * @var bool $incrementing インクリメントを無効にする
      */
     public $incrementing = false;
 
     /**
-     * プライマリキーを指定
-     * @param array $attributes
+     * コンストラクタ
+     * @param array $attributes 属性
      */
     public function __construct(array $attributes = [])
     {
@@ -52,7 +50,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @var array<int, string>
+     * @var array<int, string> $fillable 塗りつぶし可能な属性
      */
     protected $fillable = [
         'id',
@@ -104,7 +102,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * @var array<int, string>
+     * @var array<int, string> $hidden 隠蔽する属性
      */
     protected $hidden = [
         'password',
@@ -112,28 +110,28 @@ class User extends Authenticatable
     ];
 
     /**
-     * @var array<string, string>
+     * @var array<string, string> $casts 属性のキャスト
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'birthday' => 'date',
-        'hire_date' => 'date',
-        'retire_date' => 'date',
-        'attendance_flag' => 'boolean',
+        'email_verified_at'             => 'datetime',
+        'birthday'                      => 'date',
+        'hire_date'                     => 'date',
+        'retire_date'                   => 'date',
+        'attendance_flag'               => 'boolean',
         'attendance_auto_register_flag' => 'boolean',
-        'seat_flag' => 'boolean',
-        'telework_flag' => 'boolean',
-        'normal_workplace_flag' => 'boolean',
-        'telework_request_flag' => 'boolean',
-        'peer_bonus_flag' => 'boolean',
-        'evaluation_flag' => 'boolean',
-        'meeting_flag' => 'boolean',
-        'delete_flag' => 'boolean',
-        'login_failure_lock_flag' => 'boolean'
+        'seat_flag'                     => 'boolean',
+        'telework_flag'                 => 'boolean',
+        'normal_workplace_flag'         => 'boolean',
+        'telework_request_flag'         => 'boolean',
+        'peer_bonus_flag'               => 'boolean',
+        'evaluation_flag'               => 'boolean',
+        'meeting_flag'                  => 'boolean',
+        'delete_flag'                   => 'boolean',
+        'login_failure_lock_flag'       => 'boolean'
     ];
 
     /**
-     * @var array<int, string>
+     * @var array<int, string>  $guarded 代入を許可しない属性
      */
     protected $guarded = [
         'id'
@@ -157,36 +155,37 @@ class User extends Authenticatable
         return $this->belongsTo(Position::class, 'position_id');
     }
 
+    /**
+     * ユニークなユーザーIDを生成する
+     * @return void
+     */
     protected static function boot(): void
     {
         parent::boot();
+
         static::creating(function ($model) {
-            for ($tryCount = 0; $tryCount <= 5; $tryCount++) {
-                $id = "";
-                $string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz';
-                // ランダムな文字列を生成
-                for ($idIndex = 0; $idIndex < 6; $idIndex++) {
-                    $id .= $string[rand(0, strlen($string) - 1)];
+            $tryLimit = 10;
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz';
+
+            for ($tryCount = 0; $tryCount < $tryLimit; $tryCount++) {
+                $id = '';
+                for ($idIndex = 0; $idIndex < $tryLimit + 1; $idIndex++) {
+                    $id .= $characters[rand(0, strlen($characters) - 1)];
                 }
-                // 既に存在するユーザーIDの場合は再度作成
+
                 if (!User::where('id', $id)->exists()) {
                     $model->id = $id;
-                    break;
-                }
-                // 5回試行しても作成できなかった場合はエラーを返す
-                if ($tryCount === 5) {
-                    Log::alert('正しくユーザーIDが作成できませんでした');
-                    throw new Exception('正しくユーザーが作成できませんでした。');
+                    return;
                 }
             }
-            $model->created_at = now()->format('Y-m-d H:i:s');
-            $model->updated_at = now()->format('Y-m-d H:i:s');
+
+            throw new Exception('ユーザーIDを生成できませんでした。' . $tryLimit . '回試行しましたが、ユーザーIDを作成できませんでした。');
         });
     }
 
     /**
      * Slackチャンネルに対する通知をルートする
-     * @return string
+     * @return string SlackのWebhook URL
      */
     public function routeNotificationForSlack(): string
     {
@@ -195,7 +194,7 @@ class User extends Authenticatable
 
     /**
      * メール通知をルートする
-     * @return array|string
+     * @return array|string メールアドレス
      */
     public function routeNotificationForMail(): array|string
     {
