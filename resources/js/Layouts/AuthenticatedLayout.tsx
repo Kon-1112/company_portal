@@ -1,129 +1,242 @@
-import { useState, PropsWithChildren, ReactNode } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
+import React from 'react';
+import {Link} from "@inertiajs/react";
 import { User } from '@/types';
+import {
+    Avatar,
+    Box,
+    Collapse,
+    List,
+    ListItemButton,
+    Typography
+} from "@mui/material";
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import ElevatorRoundedIcon from '@mui/icons-material/ElevatorRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import FeedbackRoundedIcon from '@mui/icons-material/FeedbackRounded';
+import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
+import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
+import MapRoundedIcon from '@mui/icons-material/MapRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import InterestsRoundedIcon from '@mui/icons-material/InterestsRounded';
+import CameraOutdoorRoundedIcon from '@mui/icons-material/CameraOutdoorRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import {ExpandLess, ExpandMore} from "@mui/icons-material";
 
-export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+export default function Authenticated({ user, header, children }: React.PropsWithChildren<{ user: User, header?: React.ReactNode }>) {
+
+    /**
+     * ナビゲーションメニューの選択状態
+     * @type {React.MutableRefObject<boolean>}
+     */
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+    /**
+     * ナビゲーションメニューの選択状態を変更する
+     * @type {React.MutableRefObject<boolean>}
+     */
+    const [applicationOpen, setApplicationOpen] = React.useState(false);
+
+    /**
+     * アカウント設定メニューの選択状態
+     * @type {React.MutableRefObject<boolean>}
+     */
+    const [accountSettingOpen, setAccountSettingOpen] = React.useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+        <Box className="flex flex-row w-full overflow-hidden">
+            <Box className="flex flex-col w-80 h-full border-r dark:border-gray-600">
+                {/* ログイン社員情報 */}
+                <Box className="mt-12 mb-12">
+                    <Box className="flex justify-center items-center mb-2">
+                        <Avatar
+                            alt="社員画像"
+                            src={user.profile_image_url}
+                            sx={{ width: 100, height: 100 }}
+                        />
+                    </Box>
+                    <Box className="flex justify-center items-center flex-col">
+                        <Typography variant="h6" fontWeight={600}>
+                            <ruby>
+                                {user.first_name}
+                                <rt>{user.first_name_kana}</rt>
+                            </ruby>
+                            &nbsp;
+                            <ruby>
+                                {user.last_name}
+                                <rt>{user.last_name_kana}</rt>
+                            </ruby>
+                        </Typography>
+                        <Typography variant="body2" fontWeight={600}>
+                            {user.email}
+                        </Typography>
+                    </Box>
+                </Box>
+
+                <Box className="flex flex-col">
+                    <List>
+                        <ListItemButton
+                            selected={selectedIndex === 0}
+                            onClick={() => setSelectedIndex(0)}
+                        >
+                            <Link method="get" href={route('dashboard')} as="button">
+                                <Box className="flex items-center">
+                                    <DashboardRoundedIcon />&nbsp;ダッシュボード
+                                </Box>
+                            </Link>
+                        </ListItemButton>
+                    </List>
+                </Box>
+
+                <Box className="flex flex-col ml-4 mt-4">
+                    <Typography variant="body2" fontWeight={600}>お知らせ</Typography>
+                </Box>
+
+                <List className="flex flex-col ml-4 mt-4">
+                    <ListItemButton
+                        selected={selectedIndex === 1}
+                        onClick={() => setSelectedIndex(1)}
+                    >
+                        <Link method="get" href={route('dashboard')} as="button">
+                            <Box className="flex items-center">
+                                <FeedbackRoundedIcon />&nbsp;重要連絡
+                            </Box>
+                        </Link>
+                    </ListItemButton>
+                    <ListItemButton
+                        selected={selectedIndex === 2}
+                        onClick={() => setSelectedIndex(2)}
+                    >
+                        <Link method="get" href={route('dashboard')} as="button">
+                            <Box className="flex items-center">
+                                <InfoRoundedIcon />&nbsp;社内連絡
+                            </Box>
+                        </Link>
+                    </ListItemButton>
+                </List>
+
+                <Box className="flex flex-col ml-4 mt-4">
+                    <Typography variant="body2" fontWeight={600}>メニュー</Typography>
+                </Box>
+
+                <List className="flex flex-col ml-4 mt-4">
+                    <ListItemButton
+                        selected={selectedIndex === 3}
+                        onClick={() => setSelectedIndex(3)}
+                    >
+                        <Link method="get" href={route('employee.view')} as="button">
+                            <Box className="flex items-center">
+                                <BadgeRoundedIcon />&nbsp;社員名簿
+                            </Box>
+                        </Link>
+                    </ListItemButton>
+                    <ListItemButton
+                        selected={selectedIndex === 4}
+                        onClick={() => setSelectedIndex(4)}
+                    >
+                        <Link method="get" href={route('dashboard')} as="button">
+                            <Box className="flex items-center">
+                                <AccountTreeRoundedIcon />&nbsp;プロジェクト一覧
+                            </Box>
+                        </Link>
+                    </ListItemButton>
+                    <ListItemButton
+                        selected={selectedIndex === 5}
+                        onClick={() => setSelectedIndex(5)}
+                    >
+                        <Link method="get" href={route('seat.view')} as="button">
+                            <Box className="flex items-center">
+                                <MapRoundedIcon />&nbsp;フロアマップ
+                            </Box>
+                        </Link>
+                    </ListItemButton>
+                    <ListItemButton
+                        selected={selectedIndex === 6}
+                        onClick={() => setSelectedIndex(6)}
+                    >
+                        <Link method="get" href={route('evaluation.view')} as="button">
+                            <Box className="flex items-center">
+                                <ElevatorRoundedIcon />&nbsp;人事評価
+                            </Box>
+                        </Link>
+                    </ListItemButton>
+                    <ListItemButton
+                        selected={selectedIndex === 7}
+                        onClick={() => setSelectedIndex(7)}
+                    >
+                        <Link method="get" href={route('dashboard')} as="button">
+                            <Box className="flex items-center">
+                                <EmojiEventsRoundedIcon />&nbsp;リワード
+                            </Box>
+                        </Link>
+                    </ListItemButton>
+                </List>
+
+                <ListItemButton onClick={() => setApplicationOpen(!applicationOpen)}>
+                    <Typography variant="body2" fontWeight={600}>各種申請</Typography>
+                    {applicationOpen ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+
+                <Collapse in={applicationOpen} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItemButton
+                            selected={selectedIndex === 8}
+                            onClick={() => {
+                                setSelectedIndex(8);
+                                setApplicationOpen(true);
+                            }}
+                        >
+                            <Link method="get" href={route('dashboard')} as="button">
+                                <Box className="flex items-center">
+                                    <CameraOutdoorRoundedIcon />&nbsp;リモートワーク申請
+                                </Box>
+                            </Link>
+                        </ListItemButton>
+                        <ListItemButton
+                            selected={selectedIndex === 8}
+                            onClick={() => {
+                                setSelectedIndex(8);
+                                setApplicationOpen(true);
+                            }}
+                        >
+                            <Link method="get" href={route('dashboard')} as="button">
+                                <Box className="flex items-center">
+                                    <InterestsRoundedIcon />&nbsp;有給休暇申請
+                                </Box>
+                            </Link>
+                        </ListItemButton>
+                    </List>
+                </Collapse>
+
+                {/*アカウント設定*/}
+                <Box className="mt-2">
+                    <ListItemButton onClick={() => setAccountSettingOpen(!accountSettingOpen)}>
+                        <Typography variant="body2" fontWeight={600}>
+                            アカウント設定
+                        </Typography>
+                        {accountSettingOpen ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={accountSettingOpen} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItemButton>
+                                <Link method="get" href={route('profile.edit')} as="button">
+                                    <PersonRoundedIcon />&nbsp;
+                                    プロフィール設定
                                 </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    ダッシュボード
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        {/* ヘッダー */}
-                        <div className="hidden sm:flex sm:items-center sm:ml-6">
-                            <div className="ml-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {user.first_name} {user.last_name}
-
-                                                <svg
-                                                    className="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-mr-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
-                            >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            ダッシュボード
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800 dark:text-gray-200">
-                                {user.first_name} {user.last_name}
-                            </div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>アカウント設定</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                ログアウト
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            {header && (
-                <header className="bg-white dark:bg-gray-800 shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
-            )}
-
-            <main>{children}</main>
-        </div>
+                            </ListItemButton>
+                            <ListItemButton>
+                                <Link method="post" href={route('logout')} as="button">
+                                    <LogoutRoundedIcon />&nbsp;
+                                    ログアウト
+                                </Link>
+                            </ListItemButton>
+                        </List>
+                    </Collapse>
+                </Box>
+            </Box>
+            <Box className="flex flex-col w-full">
+                <main>{children}</main>
+            </Box>
+        </Box>
     );
 }

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('initial_password_flag')->default(true);
             // Google ID
             $table->string('google_id')->nullable();
-            // SeatManagement ID
+            // Seat ID
             $table->string('slack_id')->nullable();
             // 苗字
             $table->string('first_name');

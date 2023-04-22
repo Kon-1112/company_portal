@@ -2,6 +2,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 
+/**
+ * ダッシュボード画面
+ * @param auth
+ * @constructor
+ */
 export default function Dashboard({ auth }: PageProps) {
     return (
         <AuthenticatedLayout

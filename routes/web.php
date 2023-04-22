@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Attendance\ViewAttendanceController;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\EmployeeRoster\ViewEmployeeRosterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Seat\ViewSeatController;
+use App\Http\Controllers\ViewEvaluationController;
 use App\Mail\TestMail;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -46,9 +50,23 @@ Route::get('/about', function () {
 });
 
 Route::middleware('auth')->group(function () {
+
+    // アカウント設定
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // 座席管理
+    Route::get('/seat', [ViewSeatController::class, 'view'])->name('seat.view');
+
+    // 期待管理
+    Route::get('/attendance', [ViewAttendanceController::class, 'view'])->name('attendance.view');
+
+    // 人事評価管理
+    Route::get('/evaluation', [ViewEvaluationController::class, 'view'])->name('evaluation.view');
+
+    // 社員名簿
+    Route::get('/employee', [ViewEmployeeRosterController::class, 'view'])->name('employee.view');
 });
 
 require __DIR__.'/auth.php';
