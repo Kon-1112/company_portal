@@ -2,6 +2,7 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {Head} from "@inertiajs/react";
 import {PageProps} from "@/types";
+import {AppBar, Container, Toolbar, Typography} from "@mui/material";
 
 /**
  * 社員名簿ホーム画面
@@ -10,21 +11,15 @@ import {PageProps} from "@/types";
  */
 export default function Home({ auth }: PageProps): JSX.Element {
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    社員名簿
-                </h2>}
-        >
-            <Head title="人事評価管理" />
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">(未実装)</div>
-                    </div>
-                </div>
-            </div>
+        <AuthenticatedLayout user={auth.user}>
+            <Head title="社員名簿" />
+            <AppBar position="static" color="transparent">
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Typography variant="h6" className="text-2xl font-bold">社員名簿</Typography>
+                    </Toolbar>
+                </Container>
+            </AppBar>
         </AuthenticatedLayout>
     );
 }
