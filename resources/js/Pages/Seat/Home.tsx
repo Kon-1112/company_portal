@@ -2,14 +2,16 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import { MapContainer, ImageOverlay, Marker, Popup, Tooltip } from 'react-leaflet';
-import L from 'leaflet';
+import { MapContainer, Marker, Popup, Tooltip,  } from 'react-leaflet';
+import { ImageOverlay } from "react-leaflet";
+import L, {CRS, LatLng, LatLngBounds} from 'leaflet';
 import {Typography} from "@mui/material";
 
 interface MarkerProps {
     position: [number, number];
     content: string;
 }
+
 
 /**
  * 座席管理ホーム画面
@@ -18,10 +20,9 @@ interface MarkerProps {
  */
 const Home: React.FC<PageProps> = ({ auth }) => {
 
-    const url = 'https://placehold.jp/1980x1080.png';
+    const systemDomain: URL = new URL(window.location.href);
+    const url: string= systemDomain.origin + "/storage/images/map.jpg"
 
-    const imageBounds: L.LatLngBoundsExpression = [[0, 0], [1080, 1980]]; // 画像の矩形領域を指定する
-    const imageOptions = { opacity: 1 }; // 画像に適用するオプションを指定する
     const pinIcon = L.icon({ // ピンのアイコンを作成する
         iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
         iconSize: [38, 95],
@@ -56,13 +57,18 @@ const Home: React.FC<PageProps> = ({ auth }) => {
         >
             <Head title="座席管理" />
             <MapContainer
-                center={[0, 0]}
+                center={new LatLng(950, 990)}
                 zoom={0}
                 minZoom={0}
                 maxZoom={0}
-                scrollWheelZoom={false}>
-                <ImageOverlay url={url} bounds={imageBounds} opacity={imageOptions.opacity} />
-                {markerList}
+                crs={CRS.Simple}
+                style={{ height: "100vh" }}
+            >
+                <ImageOverlay
+                    url={url}
+                    bounds={new LatLngBounds([0, 0], [1080, 1980])}
+                    opacity={1}
+                />
             </MapContainer>
         </AuthenticatedLayout>
     );
