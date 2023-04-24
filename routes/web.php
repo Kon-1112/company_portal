@@ -3,13 +3,12 @@
 use App\Http\Controllers\Attendance\ViewAttendanceController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\EmployeeRoster\ViewEmployeeRosterController;
+use App\Http\Controllers\Notice\ViewNoticeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seat\ViewSeatController;
 use App\Http\Controllers\ViewEvaluationController;
-use App\Mail\TestMail;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
@@ -28,12 +27,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/testmail', function(){
-    Mail::to('test@example.com')->send(new TestMail);
-    return 'メール送信完了';
-});
-
-// Google OAuth
 Route::get('/auth/google/redirect', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
@@ -41,9 +34,7 @@ Route::get('/auth/google/redirect', function () {
     return Socialite::driver('google')->redirect();
 });
 
-// Google OAuth callback
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'googleAuthCallBack']);
-
 
 Route::get('/about', function () {
     return Inertia::render('About');
@@ -67,6 +58,14 @@ Route::middleware('auth')->group(function () {
 
     // 社員名簿
     Route::get('/employee', [ViewEmployeeRosterController::class, 'view'])->name('employee.view');
+
+    // 重要連絡
+    Route::get('/important-notice', [ViewNoticeController::class, 'importantCommunicationView'])
+        ->name('importantNotice.view');
+
+    // 社内連絡
+    Route::get('/internal-notice', [ViewNoticeController::class, 'internalCommunicationView'])
+        ->name('internalNotice.view');
 });
 
 require __DIR__.'/auth.php';
