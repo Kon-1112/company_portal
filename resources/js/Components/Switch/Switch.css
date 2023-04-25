@@ -1,0 +1,27 @@
+
+.App {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.switch {
+    width: 65px;
+    height: 35px;
+    background-color: rgba(110, 110, 110, 0.4);
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 20px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.switch[data-isOn="true"] {
+    justify-content: flex-end;
+}
+
+.handle {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+}
