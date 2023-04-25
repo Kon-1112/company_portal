@@ -42,7 +42,7 @@
 - tailwindcss
 
 ### アニメーション
-- animate.css
+- framer-motion
 - anime.js
 
 ### マップ描画
