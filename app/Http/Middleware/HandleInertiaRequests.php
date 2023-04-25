@@ -64,8 +64,8 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
-            'menuItem' => fn () => $this->menuItemService->getMenuItems(),
-            'menuCategory' => fn () => $this->menuCategoryService->getMenuCategories(),
+            'menuItemList' => fn () => $this->menuItemService->getMenuItems(),
+            'menuCategoryList' => fn () => $this->menuCategoryService->getMenuCategories(),
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

@@ -1,17 +1,10 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Typography} from "@mui/material";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {PageProps} from "@/types";
-import {Head, usePage} from "@inertiajs/react";
+import {Head} from "@inertiajs/react";
 
-const Home: React.FC<PageProps> = ({ auth, menuItem, menuCategory, ziggy, flash }) => {
-
-    useEffect(() => {
-        console.log(menuItem);
-        console.log(menuCategory);
-        console.log(ziggy);
-        console.log(flash);
-    }, []);
+const Home: React.FC<PageProps> = ({ auth }) => {
 
     return (
         <AuthenticatedLayout
