@@ -30,7 +30,7 @@ class MenuCategoryRepository
      */
     public function getAll(): Collection
     {
-        return $this->model->get();
+        return $this->model->orderBy('mc_order')->get();
     }
 
     /**

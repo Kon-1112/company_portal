@@ -30,7 +30,7 @@ class MenuItemRepository
      */
     public function getAll(): Collection
     {
-        return $this->model->get();
+        return $this->model->orderBy('mi_order')->get();
     }
 
     /**
