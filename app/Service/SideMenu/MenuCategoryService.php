@@ -6,6 +6,9 @@ use App\Models\MenuCategory;
 use App\Repository\SideMenu\MenuCategoryRepository;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * メニューのサービスクラス
+ */
 class MenuCategoryService
 {
     /**

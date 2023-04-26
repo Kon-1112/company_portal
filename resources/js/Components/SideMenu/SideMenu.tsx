@@ -7,11 +7,16 @@ import {router, usePage} from "@inertiajs/react";
 
 /**
  * サイドメニューの型
+ * @type {SideMenuProps}
  */
 export type SideMenuProps = {
     user: User;
 };
 
+/**
+ * ページのプロパティの型
+ * @type {PageProps}
+ */
 type PageProps = {
     menuCategoryList: MenuCategoryList;
     menuItemList: MenuItemList;
@@ -40,6 +45,7 @@ export const SideMenu :React.NamedExoticComponent<SideMenuProps> = React.memo(fu
     ) => {
         if (fixedValue) {
             router.get(route(fixedValue));
+            return;
         } else if (!itemValue) {
             router.get(route('dashboard'));
             return;

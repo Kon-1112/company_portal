@@ -35,14 +35,14 @@ class HandleInertiaRequests extends Middleware
     }
 
     /**
-     * The root template that is loaded on the first page visit.
-     *
-     * @var string
+     * @var string $rootView ルートビュー
      */
     protected $rootView = 'app';
 
     /**
-     * Determine the current asset version.
+     * バージョンを取得する
+     * @param Request $request
+     * @return string|null
      */
     public function version(Request $request): string|null
     {
@@ -50,9 +50,9 @@ class HandleInertiaRequests extends Middleware
     }
 
     /**
-     * Define the props that are shared by default.
-     *
-     * @return array<string, mixed>
+     * 共有データを取得する
+     * @param Request $request
+     * @return array
      */
     public function share(Request $request): array
     {

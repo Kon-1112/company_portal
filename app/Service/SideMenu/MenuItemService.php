@@ -6,6 +6,9 @@ use App\Models\MenuItem;
 use App\Repository\SideMenu\MenuItemRepository;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * メニューアイテムサービス
+ */
 class MenuItemService
 {
     /**
