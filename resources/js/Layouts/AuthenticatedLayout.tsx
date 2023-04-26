@@ -12,7 +12,7 @@ import {SideMenu} from "@/Components/SideMenu/SideMenu";
  */
 export default function Authenticated({ user, children, header }: React.PropsWithChildren<{ user: User, header: ReactElement }>) {
     return (
-        <Box className="flex flex-row w-full overflow-hidden">
+        <Box className="bg-white dark:bg-gray-800 text-black dark:text-white flex flex-row w-full overflow-hidden">
             <SideMenu user={user}/>
             <Box className="flex flex-col w-full">
                 <AppBar position="static" color="transparent">
