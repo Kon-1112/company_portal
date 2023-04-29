@@ -46,11 +46,9 @@ return new class extends Migration
             // 自己紹介
             $table->text('introduction')->nullable();
             // プロフィール画像URL
-            $table->string('profile_image_url')->nullable();
-            // プロフィール画像パス
-            $table->string('profile_image_path')->nullable();
+            $table->string('avatar_url')->nullable();
             // プロフィール画像名
-            $table->string('profile_image_name')->nullable();
+            $table->string('avatar_name')->nullable();
             // 部署ID
             $table->smallInteger('department_id')->nullable();
             // 入社日

@@ -32,7 +32,7 @@ export interface User {
     // 生年月日
     birthday: string;
     // 画像パス
-    profile_image_url: string;
+    avatar_url: string;
 
     password: string;
     remember_token: string;

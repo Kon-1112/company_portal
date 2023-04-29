@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Service\UserService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,14 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+
+    private UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * アカウント設定画面を表示する
      * @param Request $request
@@ -60,5 +69,21 @@ class ProfileController extends Controller
             return Redirect::to('/');
         }
         return Redirect::to('/login');
+    }
+
+    /**
+     * アバター画像を更新する
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function updateAvatar(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'avatar_file_data' => ['required'],
+        ]);
+
+        $this->userService->uploadAvatar($request->user(), $request->file('avatar_file_data'));
+
+        return Redirect::route('profile.edit');
     }
 }

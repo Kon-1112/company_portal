@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
 
 class UserRepository
 {
@@ -93,5 +94,36 @@ class UserRepository
         return $this->model->where('id', 'like', "%{$data['id']}%")
             ->where('email', 'like', "%{$data['email']}%")
             ->get();
+    }
+
+    /**
+     * ユーザーのアバターをアップロードする
+     * storage/app/public/avatars/に画像ファイルを保存する
+     * @param User $user
+     * @param UploadedFile $imageFile
+     */
+    public function uploadAvatar(User $user, UploadedFile $imageFile): void
+    {
+        $fileName = uniqid() . '.' . $imageFile->getClientOriginalExtension();
+        $imageFile->storeAs('public/avatars', $fileName);
+
+        $user->avatar_url = config('app.url') . '/storage/avatars/' . $fileName;
+        $user->save();
+    }
+
+    /**
+     * ユーザーのアバターを削除する
+     * @param User $user
+     */
+    public function deleteAvatar(User $user): void
+    {
+        if (empty($fileName = basename($user->avatar_url))) {
+            return;
+        }
+        if (file_exists($filePath = storage_path('app/public/avatars/' . $fileName))) {
+            unlink($filePath);
+        }
+        $user->avatar_url = null;
+        $user->save();
     }
 }

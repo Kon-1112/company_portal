@@ -10,7 +10,7 @@ import SelectInput from "@/Components/SelectInput";
 import DateInput from "@/Components/DateInput";
 import {DeleteUserForm} from "@/Pages/Profile/Partials/DeleteUserForm";
 import {UpdatePasswordForm} from "@/Pages/Profile/Partials/UpdatePasswordForm";
-import CropImg from "@/Components/Crop/CropImg";
+import {UpdateAvatarForm} from "@/Pages/Profile/Partials/UpdateAvatarForm";
 
 export default function Preference({ auth, mustVerifyEmail, status }: PageProps<{ mustVerifyEmail: boolean, status?: string }>) {
 
@@ -29,7 +29,7 @@ export default function Preference({ auth, mustVerifyEmail, status }: PageProps<
         initial_password_flag: auth.user.initial_password_flag,
         gender_id: auth.user.gender_id,
         birthday: auth.user.birthday,
-        profile_image_url: auth.user.profile_image_url,
+        avatar_url: auth.user.avatar_url,
         image_data: File,
     });
 
@@ -243,40 +243,10 @@ export default function Preference({ auth, mustVerifyEmail, status }: PageProps<
                             </Box>
                         )}
                     </Box>
-                    <Box className="mt-28 space-y-6 w-1/3 flex justify-center">
-                        <Box className="space-y-1 text-center">
-                            <Box className="flex justify-center items-center">
-                                <img
-                                    className="inline-block h-32 w-32 rounded-full ring-2 ring-white"
-                                    src={data.profile_image_url ? data.profile_image_url : '/images/no_image.png'}
-                                    alt=""
-                                />
-                            </Box>
-
-                            {/*　画像のサイズを表示　*/}
-                            <p className="text-xs text-gray-500">推奨サイズ: 128 x 128</p>
-                            {/*　画像の形式を表示　*/}
-                            <p className="text-xs text-gray-500">PNG, JPG, GIF 10MBまで</p>
-                            {/*　画面右下に固定で表示　*/}
-                            <Box className="fixed bottom-0 right-0">
-                                {/*　丸くて大きな保存ボタン　*/}
-                                <Box className="flex justify-center items-center">
-                                    <Button
-                                        type="submit"
-                                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none"
-                                    >
-                                        保存
-                                    </Button>
-                                </Box>
-                            </Box>
-                        </Box>
-                    </Box>
                 </form>
                 <UpdatePasswordForm />
                 <DeleteUserForm />
-
-                <CropImg />
-
+                <UpdateAvatarForm />
             </Box>
 
         </AuthenticatedLayout>

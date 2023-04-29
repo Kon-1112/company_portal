@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Models\User;
 use App\Repository\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -104,5 +105,27 @@ class UserService
     public function deleteUser(int $id): void
     {
         $this->userRepository->deleteUser($id);
+    }
+
+    /**
+     * ユーザーのアバターをアップロードする
+     * @param User $user ユーザー
+     * @param UploadedFile $imageFile アップロードファイル
+     * @return void
+     */
+    public function uploadAvatar(User $user, UploadedFile $imageFile): void
+    {
+        $this->deleteAvatar($user);
+        $this->userRepository->uploadAvatar($user, $imageFile);
+    }
+
+    /**
+     * ユーザーのアバターを削除する
+     * @param User $user ユーザー
+     * @return void
+     */
+    public function deleteAvatar(User $user): void
+    {
+        $this->userRepository->deleteAvatar($user);
     }
 }

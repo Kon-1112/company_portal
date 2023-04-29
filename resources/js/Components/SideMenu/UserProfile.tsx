@@ -6,7 +6,7 @@ import { Avatar, Box, Typography } from "@mui/material";
  * @type {UserProfileType}
  */
 type UserProfileType = {
-    profile_image_url: string;
+    avatar_url: string;
     first_name: string;
     first_name_kana: string;
     last_name: string;
@@ -55,7 +55,7 @@ export const UserProfile: React.MemoExoticComponent<React.FunctionComponent<User
             <Box sx={styles.avatarWrapper}>
                 <Avatar
                     alt="社員画像"
-                    src={props.profile_image_url}
+                    src={props.avatar_url}
                     sx={{ width: 100, height: 100 }}
                 />
             </Box>

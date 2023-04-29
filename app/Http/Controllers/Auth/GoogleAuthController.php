@@ -50,7 +50,7 @@ class GoogleAuthController extends Controller
                     'password'            => Hash::make('password'),
                     'first_name'          => $googleUser['family_name'],
                     'last_name'           => $googleUser['given_name'],
-                    'profile_image_url'   => $googleUser->getAvatar(),
+                    'avatar_url'          => $googleUser->getAvatar(),
                     'email_verified_at'   => date('Y-m-d H:i:s'),
                 ]));
 

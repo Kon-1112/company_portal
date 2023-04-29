@@ -72,7 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone_number_emergency',
         'introduction',
         'commute_other',
-        'profile_image_url',
+        'avatar_url',
         'profile_image_path',
         'profile_image_name',
         'department_id',
