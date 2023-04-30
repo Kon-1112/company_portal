@@ -42,16 +42,31 @@ Route::get('/about', function () {
 
 Route::middleware('auth')->group(function () {
 
-    // アカウント設定
+    /** -----------------------------------------------------------
+     * アカウント設定
+     * --------------------------------------------------------- */
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
+
     Route::patch('/profile', [ProfileController::class, 'update'])
         ->name('profile.update');
+
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+
     Route::post('/avatar', [ProfileController::class, 'updateAvatar'])
         ->name('avatar.update');
-    
+
+    /** -----------------------------------------------------------
+     * 需要連絡・社内連絡
+     * --------------------------------------------------------- */
+    Route::get('/important-notice', [ViewNoticeController::class, 'importantCommunicationView'])
+        ->name('importantNotice.view');
+
+    Route::get('/internal-notice', [ViewNoticeController::class, 'internalCommunicationView'])
+        ->name('internalNotice.view');
+
+
     // 座席管理
     Route::get('/seat', [ViewSeatController::class, 'view'])->name('seat.view');
 
@@ -64,13 +79,6 @@ Route::middleware('auth')->group(function () {
     // 社員名簿
     Route::get('/employee', [ViewEmployeeRosterController::class, 'view'])->name('employee.view');
 
-    // 重要連絡
-    Route::get('/important-notice', [ViewNoticeController::class, 'importantCommunicationView'])
-        ->name('importantNotice.view');
-
-    // 社内連絡
-    Route::get('/internal-notice', [ViewNoticeController::class, 'internalCommunicationView'])
-        ->name('internalNotice.view');
 });
 
 require __DIR__.'/auth.php';

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import {Box, Fade, Typography} from "@mui/material";
 
-const Loading = (props: { show: boolean }) => {
+export const Loading = (props: { show: boolean }) => {
     return (
         <Fade in={props.show}>
             <Box className="fixed top-0 left-0 w-full h-full z-50 flex flex-col items-center justify-center bg-black bg-opacity-60">
@@ -29,5 +29,3 @@ const Loading = (props: { show: boolean }) => {
         </Fade>
     );
 };
-
-export default Loading;

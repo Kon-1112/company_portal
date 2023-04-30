@@ -33,8 +33,12 @@ export interface User {
     birthday: string;
     // 画像パス
     avatar_url: string;
-
+    // 自己紹介
+    introduction: string;
+    // パスワード
     password: string;
+    // パスワード確認
+    password_confirmation: string;
     remember_token: string;
 }
 

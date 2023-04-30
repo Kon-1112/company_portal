@@ -5,22 +5,19 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
 import {useDropzone} from "react-dropzone";
-import {useForm} from "@inertiajs/react";
-import Loading from "@/Components/Loading";
 import {CropperRef, Cropper, CircleStencil} from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css'
+import InputError from "@/Components/InputError";
 
-type UpdateAvatarFormProps = {
-    data: {
-        avatar_file_data: File | undefined,
-    }
+type Props = {
     setData: any,
     post: any,
+    errors: any,
     reset: any,
     processing: boolean,
 }
 
-export const UpdateAvatarForm  = () => {
+export const UpdateAvatarForm: React.FC<Props> = React.memo(({ setData, post, errors, reset, processing }: Props): JSX.Element => {
 
     /**
      * 画像のファイルデータ
@@ -67,19 +64,10 @@ export const UpdateAvatarForm  = () => {
     const { getRootProps, isDragActive }: { getRootProps: any, isDragActive: boolean }  = useDropzone({ onDrop });
 
     /**
-     * フォームの値を変更
-     * @type {UpdateAvatarFormProps}
-     */
-    const {setData, post, reset, processing }: UpdateAvatarFormProps
-        = useForm({
-        avatar_file_data: undefined,
-    });
-
-    /**
      * 画像の選択
      * @returns {JSX.Element}
      */
-    const confirmUserDeletion = (): void => {
+    const handleAvatarModal = (): void => {
         setIsOpenUpdateAvatarModal(true);
     }
 
@@ -140,7 +128,6 @@ export const UpdateAvatarForm  = () => {
 
     return (
         <Box className={`space-y-6`}>
-            <Loading show={processing}/>
             <Box className="mt-6">
                 <Typography className="text-lg font-medium text-gray-900 dark:text-gray-100">
                     アカウント画像変更
@@ -149,7 +136,7 @@ export const UpdateAvatarForm  = () => {
                     アカウント画像を変更します。
                 </Box>
             </Box>
-            <PrimaryButton onClick={confirmUserDeletion}>
+            <PrimaryButton onClick={handleAvatarModal}>
                 アカウント画像変更
             </PrimaryButton>
             <Modal show={isOpenUpdateAvatarModal} onClose={closeModal}>
@@ -220,7 +207,14 @@ export const UpdateAvatarForm  = () => {
                         )}
                         {objectUrl && image && (
                             <Box className="relative w-full h-64">
-                                <img src={image} alt="" style={{ height: "200px" }} />
+                                <Box className="absolute inset-0 flex items-center justify-center">
+                                    <img
+                                        src={image}
+                                        alt="プロフィール画像"
+                                        style={{ height: "200px" }}
+                                        className="rounded-full"
+                                    />
+                                </Box>
                             </Box>
                         )}
                     </Box>
@@ -270,9 +264,10 @@ export const UpdateAvatarForm  = () => {
                                 }} className="ml-3">
                                     やり直す
                                 </PrimaryButton>
-                                <PrimaryButton type="button" onClick={(e: React.MouseEvent<HTMLButtonElement>) => postData(e)} className="ml-3">
+                                <PrimaryButton type="button" onClick={(e: React.MouseEvent<HTMLButtonElement>) => postData(e)} className="ml-3" disabled={processing}>
                                     更新
                                 </PrimaryButton>
+                                <InputError message={errors.avatar_url} className="mt-2" />
                             </React.Fragment>
                         }
                     </Box>
@@ -280,4 +275,5 @@ export const UpdateAvatarForm  = () => {
             </Modal>
         </Box>
     );
-};
+});
+

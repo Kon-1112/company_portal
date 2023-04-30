@@ -88,13 +88,13 @@ class UserService
 
     /**
      * ユーザーを更新する
-     * @param int $id
+     * @param User $user
      * @param array $data
      * @return void
      */
-    public function updateUser(int $id, array $data): void
+    public function update(User $user, array $data): void
     {
-        $this->userRepository->updateUser($id, $data);
+        $this->userRepository->update($user, $data);
     }
 
     /**

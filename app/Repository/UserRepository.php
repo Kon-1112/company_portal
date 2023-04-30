@@ -63,14 +63,13 @@ class UserRepository
 
     /**
      * ユーザーを更新する
-     * @param $id
+     * @param User $user
      * @param array $data
      * @return bool
      */
-    public function update($id, array $data): bool
+    public function update(User $user, array $data): bool
     {
-        $record = $this->getById($id);
-        return $record->update($data);
+        return $user->update($data);
     }
 
     /**
