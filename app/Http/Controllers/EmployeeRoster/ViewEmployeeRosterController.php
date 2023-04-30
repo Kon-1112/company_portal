@@ -11,7 +11,7 @@ class ViewEmployeeRosterController extends Controller
 {
     public function view(Request $request): Response
     {
-        return Inertia::render('EmployeeRoster/Home', [
+        return Inertia::render('EmployeeRoster/ImportantCommnucation', [
             'status' => session('status'),
         ]);
     }

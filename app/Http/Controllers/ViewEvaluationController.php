@@ -10,7 +10,7 @@ class ViewEvaluationController extends Controller
 {
     public function view(Request $request): Response
     {
-        return Inertia::render('Evaluation/Home', [
+        return Inertia::render('Evaluation/ImportantCommnucation', [
             'status' => session('status'),
         ]);
     }

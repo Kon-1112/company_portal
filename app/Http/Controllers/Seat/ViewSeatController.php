@@ -11,7 +11,7 @@ class ViewSeatController extends Controller
 {
     public function view(Request $request): Response
     {
-        return Inertia::render('Seat/Home', [
+        return Inertia::render('Seat/ImportantCommnucation', [
             'status' => session('status'),
         ]);
     }

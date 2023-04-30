@@ -3,13 +3,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {PageProps} from '@/types';
 import {Box, Snackbar, Typography} from "@mui/material";
-import {UpdateAvatarForm} from "@/Pages/Profile/Partials/UpdateAvatarForm";
-import {UpdateUserProfileForm} from "@/Pages/Profile/Partials/UpdateUserProfileForm";
+import {UpdateAvatarForm} from "@/Pages/Account/Partials/UpdateAvatarForm";
+import {UpdateUserProfileForm} from "@/Pages/Account/Partials/UpdateUserProfileForm";
 import {Loading} from "@/Components/Loading";
-import {UpdatePasswordForm} from "@/Pages/Profile/Partials/UpdatePasswordForm";
-import {DeleteUserForm} from "@/Pages/Profile/Partials/DeleteUserForm";
+import {UpdatePasswordForm} from "@/Pages/Account/Partials/UpdatePasswordForm";
+import {DeleteUserForm} from "@/Pages/Account/Partials/DeleteUserForm";
 
-export default function Preference({ auth }: PageProps<{ mustVerifyEmail: boolean, status?: string }>) {
+export default function AccountSetting({ auth }: PageProps<{ mustVerifyEmail: boolean, status?: string }>) {
 
     type Props = {
         data: any,
@@ -73,7 +73,7 @@ export default function Preference({ auth }: PageProps<{ mustVerifyEmail: boolea
             }
         >
             <Head title="アカウント設定" />
-            <Box className="flex flex-col justify-center w-[800px] mx-auto">
+            <Box className="flex flex-col justify-center w-[800px] mx-auto mb-20">
                 <UpdateUserProfileForm
                     auth={auth}
                     data={data}

@@ -11,7 +11,7 @@ class ViewAttendanceController extends Controller
 {
     public function view(Request $request): Response
     {
-        return Inertia::render('Attendance/Home', [
+        return Inertia::render('Attendance/ImportantCommnucation', [
             'status' => session('status'),
         ]);
     }

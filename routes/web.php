@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\Attendance\ViewAttendanceController;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Communication\CompanyCommunicationController;
 use App\Http\Controllers\EmployeeRoster\ViewEmployeeRosterController;
-use App\Http\Controllers\Notice\ViewNoticeController;
+use App\Http\Controllers\Communication\ImportantCommunicationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seat\ViewSeatController;
 use App\Http\Controllers\ViewEvaluationController;
@@ -36,10 +37,6 @@ Route::get('/auth/google/redirect', function () {
 
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'googleAuthCallBack']);
 
-Route::get('/about', function () {
-    return Inertia::render('About');
-});
-
 Route::middleware('auth')->group(function () {
 
     /** -----------------------------------------------------------
@@ -60,11 +57,10 @@ Route::middleware('auth')->group(function () {
     /** -----------------------------------------------------------
      * 需要連絡・社内連絡
      * --------------------------------------------------------- */
-    Route::get('/important-notice', [ViewNoticeController::class, 'importantCommunicationView'])
-        ->name('importantNotice.view');
-
-    Route::get('/internal-notice', [ViewNoticeController::class, 'internalCommunicationView'])
-        ->name('internalNotice.view');
+    Route::get('/important-communication', [ImportantCommunicationsController::class, 'index'])
+        ->name('importantCommunication.view');
+    Route::get('/company-communication', [CompanyCommunicationController::class, 'index'])
+        ->name('companyCommunication.view');
 
 
     // 座席管理
