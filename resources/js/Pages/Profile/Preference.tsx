@@ -16,7 +16,6 @@ export default function Preference({ auth }: PageProps<{ mustVerifyEmail: boolea
         setData: any,
         patch: any,
         post: any,
-        put: any,
         reset: any,
         errors: {
             first_name?: string,
@@ -40,7 +39,7 @@ export default function Preference({ auth }: PageProps<{ mustVerifyEmail: boolea
     /**
      * フォームの状態を管理する
      */
-    const { data, setData, patch, post, put, reset, errors, processing, recentlySuccessful,}: Props = useForm({
+    const { data, setData, patch, post, reset, errors, processing, recentlySuccessful,}: Props = useForm({
         first_name: auth.user.first_name,
         last_name: auth.user.last_name,
         first_name_kana: auth.user.first_name_kana,
