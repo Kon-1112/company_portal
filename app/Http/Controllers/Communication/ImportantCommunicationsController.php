@@ -29,7 +29,6 @@ class ImportantCommunicationsController extends Controller
 
     /**
      * 重要連絡を表示する
-     * @param int|null $page
      * @return Response
      */
     public function index(): Response
@@ -73,14 +72,5 @@ class ImportantCommunicationsController extends Controller
     {
         $this->importantCommunicationService->update($request->user(), $request->validated());
         return Redirect::route('importantCommunication.edit');
-    }
-
-
-    // 社内連絡を表示する
-    public function internalCommunicationView(): Response
-    {
-        return Inertia::render('Communication/ImportantCommnucation', [
-            'status'        => session('status'),
-        ]);
     }
 }

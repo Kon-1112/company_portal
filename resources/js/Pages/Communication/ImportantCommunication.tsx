@@ -1,9 +1,8 @@
 import React from "react";
-import {Avatar, Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
+import {Avatar, Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Pagination, Typography} from "@mui/material";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {User} from "@/types";
 import {Head, router} from "@inertiajs/react";
-import PrimaryButton from "@/Components/PrimaryButton";
 import {PostForm} from "@/Pages/Communication/Partials/PostForm";
 // import CheckIcon from '@mui/icons-material/Check';
 // import ErrorIcon from '@mui/icons-material/Error';
@@ -39,8 +38,13 @@ type ImportantCommunicationProps = {
 }
 
 const ImportantCommunication: React.FC<ImportantCommunicationProps> = ({ auth, items }: ImportantCommunicationProps) => {
-    const handlePageChange = (url: string | null): void => {
-        url && router.visit(url);
+
+    /**
+     * ページネーション
+     * @param page ページ番号
+     */
+    const handlePageChange = (page: number): void => {
+        router.visit(`/important-communication?page=${page}`);
     };
 
     return (
@@ -76,28 +80,14 @@ const ImportantCommunication: React.FC<ImportantCommunicationProps> = ({ auth, i
 
                 <Box className="flex flex-col items-center">
                     {
-                        items ? (
-                            <span className="text-sm text-gray-700 dark:text-gray-400">
-                            <span className="font-semibold text-gray-900 dark:text-white">{items.last_page}</span>
-                                    &nbsp;ページ中&nbsp;
-                                    <span className="font-semibold text-gray-900 dark:text-white">{items.current_page}</span>
-                                    &nbsp;ページを表示中&nbsp;
-                            </span>
-                        ) : (
-                            <></>
+                        items && (
+                            <Pagination
+                                count={items.last_page}
+                                page={items.current_page}
+                                onChange={(event, page) => handlePageChange(page)}
+                            />
                         )
                     }
-                    <Box className="inline-flex mt-2 xs:mt-0">
-                        {items && items.links.map((link, index) => (
-                            <PrimaryButton
-                                key={index}
-                                onClick={() => handlePageChange(link.url)}
-                                disabled={!link.url || link.active}
-                            >
-                                &nbsp;{link.label}&nbsp;
-                            </PrimaryButton>
-                        ))}
-                    </Box>
                 </Box>
             </Box>
             <Loading show={!items} />
