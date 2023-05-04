@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('ic_title', 100);
             // 重要連絡内容
             $table->text('ic_content');
+            // カテゴリID
+            $table->smallInteger('ic_category_id');
             // 重要連絡作成者のメールアドレス
             $table->string('ic_created_by_email');
             $table->foreign('ic_created_by_email')->references('email')->on('t_users');

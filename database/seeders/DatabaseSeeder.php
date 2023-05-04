@@ -14,11 +14,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         User::factory(50)->create();
-         ImportantCommunication::factory(100)->create();
-         CompanyCommunication::factory(100)->create();
-        $this->call(NoticeGenreSeed::class);
-        $this->call(MenuCategorySeed::class);
-        $this->call(MenuItemSeed::class);
+        /******************************************************
+         * テストデータ
+         *****************************************************/
+         User::factory(10)->create();
+         ImportantCommunication::factory(25)->create();
+         CompanyCommunication::factory(25)->create();
+        /******************************************************
+         * マスタデータ
+         *****************************************************/
+        $this->call(DepartmentSeeder::class);       // 部署マスタ
+        $this->call(SuperAdminUserSeeder::class);   // システム最高権限ユーザーのマスタ
+        $this->call(MenuCategorySeeder::class);     // メニューカテゴリマスタ
+        $this->call(MenuItemSeeder::class);         // メニューアイテムマスタ
     }
 }

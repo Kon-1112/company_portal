@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('cc_title', 100);
             // 会社連絡内容
             $table->text('cc_content');
+            // カテゴリID
+            $table->smallInteger('cc_category_id');
             // 会社連絡作成者のメールアドレス
             $table->string('cc_created_by_email');
             $table->foreign('cc_created_by_email')->references('email')->on('t_users');

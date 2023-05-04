@@ -49,8 +49,6 @@ return new class extends Migration
             $table->string('avatar_url')->nullable();
             // プロフィール画像名
             $table->string('avatar_name')->nullable();
-            // 部署ID
-            $table->smallInteger('department_id')->nullable();
             // 入社日
             $table->date('hire_date')->nullable();;
             // 退社日

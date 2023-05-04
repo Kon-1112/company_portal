@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -35,7 +36,7 @@ class UserFactory extends Factory
             'birthday' => fake()->dateTimeBetween('-50 years', '-20 years'),
             'introduction' => fake()->realText(2000),
             'avatar_url' => fake()->imageUrl(),
-            'department_id' => fake()->numberBetween(1, 10),
+            'department_name' => null,
             'hire_date' => fake()->dateTimeBetween('-10 years', '-1 years'),
             'retire_date' => null,
             'delete_flag' => fake()->boolean,

@@ -12,36 +12,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_department', function (Blueprint $table) {
+        Schema::create('m_departments', function (Blueprint $table) {
             // 部署ID
             $table->id('d_id');
             // 部署名
-            $table->string('d_name');
-            // 部署名(カナ)
-            $table->string('d_name_kana');
-            // 部署名(英語)
-            $table->string('d_name_en');
+            $table->string('d_name')->unique();
+            // 部署名(かな)
+            $table->string('d_name_kana')->unique();
             // 部署名(略称)
             $table->string('d_name_short');
             // 部署名(略称カナ)
             $table->string('d_name_short_kana');
             // 部署カラー
             $table->string('d_color');
+            // 通知用SlackチャンネルID
+            $table->string('d_notify_slack_channel_id')->nullable();
+            // 通知用Slackチャンネル名
+            $table->string('d_notify_slack_channel_name')->nullable();
             // 勤怠打刻SlackチャンネルID
             $table->string('d_attendance_slack_channel_id')->nullable();
             // 勤怠打刻Slackチャンネル名
             $table->string('d_attendance_slack_channel_name')->nullable();
-            // 勤怠打刻SlackチャンネルURL
-            $table->string('d_attendance_slack_channel_url')->nullable();
-            // 勤怠打刻Slackチャンネルトークン
-            $table->string('d_attendance_slack_channel_token')->nullable();
-            // 勤怠打刻Slackチャンネルシークレット
-            $table->string('d_attendance_slack_channel_secret')->nullable();
-            // 勤怠打刻SlackチャンネルワークスペースID
-            $table->string('d_attendance_slack_channel_workspace_id')->nullable();
-            // 勤怠打刻Slackチャンネルワークスペース名
-            $table->string('d_attendance_slack_channel_workspace_name')->nullable();
-            $table->timestamps();
+            // 作成日時
+            $table->dateTime('d_created_at');
+            // 更新日時
+            $table->dateTime('d_updated_at');
         });
     }
 
@@ -51,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_department');
+        Schema::dropIfExists('m_departments');
     }
 };
