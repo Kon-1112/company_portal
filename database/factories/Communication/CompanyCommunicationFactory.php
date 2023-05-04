@@ -20,7 +20,9 @@ class CompanyCommunicationFactory extends Factory
     {
         return [
             'cc_title' => fake()->sentence,
-            'cc_content' => fake()->paragraph,
+            'cc_content' => fake()->realText(2000),
+            'cc_deadline_at' => fake()->dateTime,
+            'cc_category_id' => fake()->numberBetween(1, 4),
             'cc_created_by_email' => User::factory()->create()->email,
             'cc_updated_by_email' => User::factory()->create()->email,
             'cc_deleted_by_email' => null,

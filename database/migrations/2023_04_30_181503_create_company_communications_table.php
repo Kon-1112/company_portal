@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('cc_content');
             // カテゴリID
             $table->smallInteger('cc_category_id');
+            // 期限日時
+            $table->dateTime('cc_deadline_at');
             // 会社連絡作成者のメールアドレス
             $table->string('cc_created_by_email');
             $table->foreign('cc_created_by_email')->references('email')->on('t_users');

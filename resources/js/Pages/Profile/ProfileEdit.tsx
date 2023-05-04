@@ -3,13 +3,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 import {PageProps} from '@/types';
 import {Box, Snackbar, Typography} from "@mui/material";
-import {UpdateAvatarForm} from "@/Pages/Account/Partials/UpdateAvatarForm";
-import {UpdateUserProfileForm} from "@/Pages/Account/Partials/UpdateUserProfileForm";
+import {UpdateAvatarForm} from "@/Pages/Profile/Partials/UpdateAvatarForm";
+import {UpdateUserProfileForm} from "@/Pages/Profile/Partials/UpdateUserProfileForm";
 import {Loading} from "@/Components/Loading";
-import {UpdatePasswordForm} from "@/Pages/Account/Partials/UpdatePasswordForm";
-import {DeleteUserForm} from "@/Pages/Account/Partials/DeleteUserForm";
+import {UpdatePasswordForm} from "@/Pages/Profile/Partials/UpdatePasswordForm";
+import {DeleteUserForm} from "@/Pages/Profile/Partials/DeleteUserForm";
 
-export default function AccountSetting({ auth }: PageProps<{ mustVerifyEmail: boolean, status?: string }>) {
+export default function ProfileEdit({ auth }: PageProps<{ mustVerifyEmail: boolean, status?: string }>) {
 
     type Props = {
         data: any,

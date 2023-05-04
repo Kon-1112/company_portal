@@ -6,11 +6,10 @@ use App\Repository\Communications\ImportantCommunicationRepository;
 
 class ImportantCommunicationService
 {
-
     /**
-     * @var ImportantCommunicationRepository $importantCommunicationRepository 重要連絡リポジトリ
+     * @var ImportantCommunicationRepository $importantRepository
      */
-    private ImportantCommunicationRepository $importantCommunicationRepository;
+    private ImportantCommunicationRepository $importantRepository;
 
     /**
      * コンスタンタ
@@ -18,7 +17,7 @@ class ImportantCommunicationService
      */
     public function __construct(ImportantCommunicationRepository $importantCommunicationRepository)
     {
-        $this->importantCommunicationRepository = $importantCommunicationRepository;
+        $this->importantRepository = $importantCommunicationRepository;
     }
 
     /**
@@ -28,8 +27,39 @@ class ImportantCommunicationService
      */
     public function getImportantCommunications(int $count): object
     {
-        return $this->importantCommunicationRepository->getImportantCommunications($count);
+        return $this->importantRepository->getImportantCommunications($count);
     }
+
+    /**
+     * 指定の重要連絡を既読にする
+     * @param array $data
+     * @return mixed|void
+     */
+    public function readImportantCommunication(array $data)
+    {
+        switch ($data['status']) {
+            case 1:
+                if (!$this->importantRepository->isReadImportantCommunication($data)) {
+                    return $this->importantRepository->readImportantCommunication($data);
+                }
+                break;
+            case 0:
+                $this->importantRepository->unreadImportantCommunication($data);
+                break;
+        }
+    }
+
+    /**
+     * 重要連絡を検索する
+     * @param array $data
+     * @param int $count
+     * @return object
+     */
+    public function searchImportantCommunications(array $data, int $count): object
+    {
+        return $this->importantRepository->searchImportantCommunications($data, $count);
+    }
+
 
     /**
      * 重要連絡を取得する
@@ -38,7 +68,7 @@ class ImportantCommunicationService
      */
     public function getImportantCommunication(int $id): object
     {
-        return $this->importantCommunicationRepository->getImportantCommunication($id);
+        return $this->importantRepository->getImportantCommunication($id);
     }
 
     /**
@@ -48,7 +78,7 @@ class ImportantCommunicationService
      */
     public function createImportantCommunication(array $data): object
     {
-        return $this->importantCommunicationRepository->createImportantCommunication($data);
+        return $this->importantRepository->createImportantCommunication($data);
     }
 
     /**
@@ -59,7 +89,7 @@ class ImportantCommunicationService
      */
     public function updateImportantCommunication(int $id, array $data): object
     {
-        return $this->importantCommunicationRepository->updateImportantCommunication($id, $data);
+        return $this->importantRepository->updateImportantCommunication($id, $data);
     }
 
     /**
@@ -69,6 +99,6 @@ class ImportantCommunicationService
      */
     public function deleteImportantCommunication(int $id): object
     {
-        return $this->importantCommunicationRepository->deleteImportantCommunication($id);
+        return $this->importantRepository->deleteImportantCommunication($id);
     }
 }

@@ -3,11 +3,12 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, SelectHTMLAttribute
 type Option = {
     label: string;
     id: number;
+    value: string|number;
 };
 
 export default forwardRef(function SelectInput(
     { className = '', isFocused = false, options, ...props }: SelectHTMLAttributes<HTMLSelectElement> & { isFocused?: boolean, options: Option[]  },
-    ref
+    ref: any
 ) {
     const localRef = useRef<HTMLSelectElement>(null);
     useImperativeHandle(ref, () => ({
@@ -30,7 +31,7 @@ export default forwardRef(function SelectInput(
             ref={localRef}
         >
             {options.map((option) => (
-                <option key={option.id} value={option.id}>
+                <option key={option.id} value={option.value}>
                     {option.label}
                 </option>
             ))}

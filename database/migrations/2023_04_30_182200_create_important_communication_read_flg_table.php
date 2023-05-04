@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_important_communication_read_flg', function (Blueprint $table) {
-            // 既読ステータスID
+            // ID
             $table->id('icrf_id');
-            // 既読フラグ (false:未読 true:既読)
-            $table->boolean('icrf_flg');
+            // ステータス(1:既読, 2:保留)
+            $table->smallInteger('icrf_status');
             // 既読者のメールアドレス
             $table->string('icrf_email');
             $table->foreign('icrf_email')->references('email')->on('t_users');
             // 既読対象の重要連絡ID
-            $table->unsignedBigInteger('icrf_important_communication_id');
-            $table->foreign('icrf_important_communication_id')->references('ic_id')->on('t_important_communications');
+            $table->unsignedBigInteger('icrf_ic_id');
+            $table->foreign('icrf_ic_id')->references('ic_id')->on('t_important_communications');
             // 既読日時
             $table->dateTime('icrf_read_at');
         });

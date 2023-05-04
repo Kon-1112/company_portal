@@ -22,6 +22,8 @@ type Props = {
         blood_type_id: number,
         email: string,
         introduction: string,
+        font_name: string,
+        theme_mode: string,
     },
     setData: any,
     patch: any,
@@ -37,6 +39,8 @@ type Props = {
         blood_type_id?: string,
         email?: string,
         introduction?: string,
+        font_name?: string,
+        theme_mode?: string,
     },
     processing: boolean,
 }
@@ -135,10 +139,10 @@ export const UpdateUserProfileForm: React.FC<Props> = React.memo(({ data, setDat
                                 className="mt-1 block w-full"
                                 value={data.gender_id ?? 0}
                                 options={[
-                                    {id: 0, label: '選択してください'},
-                                    {id: 1, label: '男性'},
-                                    {id: 2, label: '女性'},
-                                    {id: 3, label: 'その他'},
+                                    {id: 0, label: '選択してください', value: 0},
+                                    {id: 1, label: '男性', value: 1},
+                                    {id: 2, label: '女性', value: 2},
+                                    {id: 3, label: 'その他', value: 3},
                                 ]}
                                 onChange={(e: any) => setData('gender_id', e.target.value)}
                                 required
@@ -165,17 +169,51 @@ export const UpdateUserProfileForm: React.FC<Props> = React.memo(({ data, setDat
                                 className="mt-1 block w-full"
                                 value={data.blood_type_id ?? 0}
                                 options={[
-                                    {id: 0, label: '選択してください'},
-                                    {id: 1, label: 'A型'},
-                                    {id: 2, label: 'B型'},
-                                    {id: 3, label: 'O型'},
-                                    {id: 4, label: 'AB型'},
-                                    {id: 5, label: '不明'},
+                                    {id: 0, label: '選択してください', value: 0},
+                                    {id: 1, label: 'A型', value: 1},
+                                    {id: 2, label: 'B型', value: 2},
+                                    {id: 3, label: 'O型', value: 3},
+                                    {id: 4, label: 'AB型', value: 4},
+                                    {id: 5, label: '不明', value: 5},
                                 ]}
                                 onChange={(e: any) => setData('blood_type_id', e.target.value)}
                                 required
                             />
                             <InputError className="mt-2" message={errors.blood_type_id} />
+                        </Box>
+                    </Box>
+                    <Box className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                        <Box>
+                            <InputLabel htmlFor="font_name" value="フォント" />
+                            <SelectInput
+                                id="font_name"
+                                className="mt-1 block w-full"
+                                value={data.font_name ?? ''}
+                                options={[
+                                    {id: 0, label: 'sans-serif', value: 'sans-serif'},
+                                    {id: 1, label: 'Shippori Mincho', value: 'Shippori Mincho'},
+                                    {id: 3, label: 'DotGothic16', value: 'DotGothic16'},
+                                    {id: 2, label: 'Kaisei Tokumin', value: 'Kaisei Tokumin'},
+                                    {id: 4, label: 'Stick', value: 'Stick'},
+                                    {id: 5, label: 'Yuji Mai', value: 'Yuji Mai'},
+                                    {id: 6, label: 'Zen Maru Gothic', value: 'Zen Maru Gothic'},
+                                ]}
+                                onChange={(e: any) => setData('font_name', e.target.value)}
+                            />
+                        </Box>
+                        <Box>
+                            <InputLabel htmlFor="theme_mode" value="テーマカラー" />
+                            <SelectInput
+                                id="theme_mode"
+                                className="mt-1 block w-full"
+                                value={data.theme_mode ?? ''}
+                                options={[
+                                    {id: 0, label: 'ライト', value: 'light'},
+                                    {id: 1, label: 'ダーク', value: 'dark'},
+                                    {id: 2, label: 'OS連動', value: ''},
+                                ]}
+                                onChange={(e: any) => setData('theme_mode', e.target.value)}
+                            />
                         </Box>
                     </Box>
                     <Box>
@@ -193,7 +231,6 @@ export const UpdateUserProfileForm: React.FC<Props> = React.memo(({ data, setDat
                     </Box>
                 </Box>
             </Box>
-            {/*横並び*/}
             <Box className="mt-6 flex justify-between">
                 <Typography variant="h6">
                     自己紹介

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('ic_content');
             // カテゴリID
             $table->smallInteger('ic_category_id');
+            // 期限日時
+            $table->dateTime('ic_deadline_at')->nullable();
             // 重要連絡作成者のメールアドレス
             $table->string('ic_created_by_email');
             $table->foreign('ic_created_by_email')->references('email')->on('t_users');

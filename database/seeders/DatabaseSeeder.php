@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
         /******************************************************
          * テストデータ
          *****************************************************/
-         User::factory(10)->create();
-         ImportantCommunication::factory(25)->create();
-         CompanyCommunication::factory(25)->create();
+         User::factory(1)->create();
+         ImportantCommunication::factory(400)->create();
+//         CompanyCommunication::factory(10)->create();
         /******************************************************
          * マスタデータ
          *****************************************************/

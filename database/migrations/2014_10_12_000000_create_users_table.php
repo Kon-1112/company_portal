@@ -115,6 +115,11 @@ return new class extends Migration
             $table->string('role_id')->nullable();
 
             /*** その他 ***/
+            // フォントタイプ
+            $table->string('font_name')->default('sans-serif');
+            // テーマ
+            $table->string('theme_mode')->nullable();
+
             $table->timestamps();
 
             $table->rememberToken();

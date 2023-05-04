@@ -1,19 +1,19 @@
 <?php
 
+use App\Http\Controllers\Communication\ImportantCommunicationsController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::post('important-communication/read', [ImportantCommunicationsController::class, 'read']);
+
+Route::get('important-communications/search', [ImportantCommunicationsController::class, 'search']);
+
+// 全ユーザーの一覧を取得する
+Route::get('/users', function () {
+    return User::all();
 });

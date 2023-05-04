@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\MenuCategory;
 use Illuminate\Database\Seeder;
 
-class MenuCategorySeed extends Seeder
+class MenuCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.

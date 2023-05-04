@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\MenuItem;
 use Illuminate\Database\Seeder;
 
-class MenuItemSeed extends Seeder
+class MenuItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.

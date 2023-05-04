@@ -28,6 +28,8 @@ class ProfileUpdateRequest extends FormRequest
             'blood_type_id'     => ['numeric', 'min:1'],
             'gender_id'         => ['numeric', 'min:1'],
             'introduction'      => ['string', 'max:2000'],
+            'font_name'         => ['string', 'max:255'],
+            'theme_mode'        => ['string', 'max:255'],
         ];
     }
 }

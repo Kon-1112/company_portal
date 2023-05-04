@@ -100,7 +100,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'role_id',
         'created_at',
         'updated_at',
-        'name'
+        'font_name',
+        'theme_mode',
     ];
 
     /**

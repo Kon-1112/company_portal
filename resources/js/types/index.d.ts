@@ -35,6 +35,10 @@ export interface User {
     avatar_url: string;
     // 自己紹介
     introduction: string;
+    // ベースフォント
+    font_name: string;
+    // ベーステーマ
+    theme_mode: "light" | "dark";
     // パスワード
     password: string;
     // パスワード確認

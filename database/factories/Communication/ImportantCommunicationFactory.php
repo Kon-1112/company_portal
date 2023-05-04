@@ -20,7 +20,9 @@ class ImportantCommunicationFactory extends Factory
     {
         return [
             'ic_title' => fake()->sentence,
-            'ic_content' => fake()->paragraph,
+            'ic_content' => fake()->realText(2000),
+            'ic_deadline_at' => fake()->dateTimeBetween('-1 month', '+1 month'),
+            'ic_category_id' => fake()->numberBetween(1, 7),
             'ic_created_by_email' => User::factory()->create()->email,
             'ic_updated_by_email' => User::factory()->create()->email,
             'ic_deleted_by_email' => null,

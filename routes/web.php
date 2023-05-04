@@ -62,6 +62,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/company-communication', [CompanyCommunicationController::class, 'index'])
         ->name('companyCommunication.view');
 
+    // 既読状態
+
+
 
     // 座席管理
     Route::get('/seat', [ViewSeatController::class, 'view'])->name('seat.view');
