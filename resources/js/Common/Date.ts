@@ -17,6 +17,9 @@ export const formatDate = (dateString: string): string => {
  * @returns {boolean}
  */
 export const isOverTime = (dateString: string): boolean => {
+    if (!hasTime(dateString)) {
+        dateString += ' 00:00:00';
+    }
     const date: Date    = new Date(dateString);
     const now: Date     = new Date();
     return date.getTime() < now.getTime();
@@ -30,6 +33,12 @@ export const isOverTime = (dateString: string): boolean => {
 export const getRemainingDays = (dateString: string): number => {
     const date: Date    = new Date(dateString);
     const now: Date     = new Date();
+
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+
     const diff: number  = date.getTime() - now.getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
