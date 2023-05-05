@@ -47,6 +47,17 @@ export const convertDateForTextInput = (dateString: string): string => {
     return `${year}-${month}-${day}`;
 }
 
+/**
+ * TextInputで使用する時間フォーマットに変換する
+ * @param dateString
+ * @returns {string}
+ */
+export const convertTimeForTextInput = (dateString: string): string => {
+    const date: Date    = new Date(dateString);
+    const hour: string  = String(date.getHours()).padStart(2, '0');
+    const minute: string = String(date.getMinutes()).padStart(2, '0');
+    return `${hour}:${minute}`;
+}
 
 /**
  * 日付情報に時間情報が含まれるかを判定する
