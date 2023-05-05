@@ -1,16 +1,5 @@
-import React, {useEffect} from "react";
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Avatar,
-    Box,
-    Button, Checkbox,
-    Chip,
-    Drawer, FormControlLabel, IconButton,
-    Pagination, TextField,
-    Typography
-} from "@mui/material";
+import React from "react";
+import {Accordion, AccordionDetails, AccordionSummary, Avatar, Box, Button, Chip, Pagination, Typography} from "@mui/material";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {User} from "@/types";
 import {Head, router} from "@inertiajs/react";
@@ -24,14 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded';
 import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import {formatDate, formatDateTime, getRemainingDays, hasTime, isOverTime} from "@/Common/Date";
-import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import {ImportantCommunicationCategoryList, ImportantCommunicationCategoryType, READ_STATUS, UNREAD_STATUS
 } from "@/Const/Communication/ImportantCommunicatonCategory";
-import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
-import {SearchForm} from "@/Pages/Communication/Partials/SearchForm";
-import {FilterDrawer} from "@/Pages/Communication/Partials/FilterDrawer";
+import {SearchDrawer} from "@/Pages/Communication/Partials/SearchDrawer";
 
 type Props = {
     auth: {
@@ -60,8 +45,7 @@ type ItemDataProps = {
     ic_deadline_at: string;
     ic_created_at: string;
     ic_updated_at: string;
-    icrf_status: number;
-    icrf_read_at: string;
+    icrf_read_at: string | null;
     first_name: string;
     first_name_kana: string;
     last_name: string;
@@ -118,11 +102,10 @@ const ImportantCommunication: React.FC<Props> = ({ auth, items }: Props) => {
                 const now: Date = new Date();
                 const updatedItem: ItemDataProps = { ...item };
                 if (status === READ_STATUS && item.ic_id === icId) {
-                    updatedItem.icrf_status = READ_STATUS;
                     updatedItem.icrf_read_at = now.toISOString();
                 }
                 else if (status === UNREAD_STATUS && item.ic_id === icId) {
-                    updatedItem.icrf_status = UNREAD_STATUS;
+                    updatedItem.icrf_read_at = null;
                 }
                 return updatedItem;
             });
@@ -148,14 +131,12 @@ const ImportantCommunication: React.FC<Props> = ({ auth, items }: Props) => {
                         </Typography>
                     </Box>
                     <Box className="flex items-center">
-                        <FilterDrawer
+                        <SearchDrawer
                             auth={auth}
                             callback={(items: any): void => {
                                 items && items.data && setImportantItems(items.data);
                                 setParams(items.params);
                             }}
-                        />
-                        <SearchForm
                         />
                         <AddFrom />
                     </Box>
@@ -195,7 +176,7 @@ const ImportantCommunication: React.FC<Props> = ({ auth, items }: Props) => {
                                     <Box className="flex items-center">
                                         <Box className="mr-4">
                                             {
-                                                item.icrf_status === READ_STATUS ? (
+                                                item.icrf_read_at ? (
                                                     <Tooltip title={"既読日時：" + formatDateTime(item.icrf_read_at)}>
                                                         <Chip
                                                             className="font-bold"

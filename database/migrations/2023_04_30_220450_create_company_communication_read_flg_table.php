@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('t_company_communication_read_flg', function (Blueprint $table) {
             // 既読ステータスID
             $table->id('ccrf_id');
-            // 既読フラグ (false:未読 true:既読)
-            $table->boolean('ccrf_flg');
             // 既読者のメールアドレス
             $table->string('ccrf_email');
             $table->foreign('ccrf_email')->references('email')->on('t_users');

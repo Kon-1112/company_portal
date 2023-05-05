@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Communication\CompanyCommunication;
 use App\Models\Communication\ImportantCommunication;
+use App\Models\Communication\ImportantCommunicationReadFlg;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +19,8 @@ class DatabaseSeeder extends Seeder
          * テストデータ
          *****************************************************/
          User::factory(1)->create();
-         ImportantCommunication::factory(400)->create();
+         ImportantCommunication::factory(50)->create();
+         ImportantCommunicationReadFlg::factory(50)->create();
 //         CompanyCommunication::factory(10)->create();
         /******************************************************
          * マスタデータ

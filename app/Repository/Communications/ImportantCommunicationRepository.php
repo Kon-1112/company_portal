@@ -33,7 +33,6 @@ class ImportantCommunicationRepository
         return ImportantCommunicationReadFlg::create([
             'icrf_ic_id'  => $data['ic_id'],
             'icrf_email'  => $data['email'],
-            'icrf_status' => $data['status'],
             'icrf_read_at'=> now(),
         ]);
     }
@@ -59,7 +58,6 @@ class ImportantCommunicationRepository
     {
         return ImportantCommunicationReadFlg::where('icrf_ic_id', $data['ic_id'])
             ->where('icrf_email', $data['email'])
-            ->where('icrf_status', $data['status'])
             ->exists();
     }
 
@@ -71,6 +69,9 @@ class ImportantCommunicationRepository
      */
     public function searchImportantCommunications(array $data, int $count): object
     {
+        $searchTitle = $data['searchTitle'] ?? '';
+        $searchContent = $data['searchContent'] ?? '';
+
         $filteredUsers = $data['selectedUsers'] ?? [];
         $filteredUserEmails = array_map(function ($user) {
             return $user['email'];
@@ -83,7 +84,6 @@ class ImportantCommunicationRepository
 
         $filteredStartDate = $data['selectedStartDate'] ?? '';
         $filteredEndDate = $data['selectedEndDate'] ?? '';
-        $filteredReadFlag = $data['selectedReadFlag'] ?? '';
 
         $email = $data['email'] ?? '';
 
@@ -91,10 +91,13 @@ class ImportantCommunicationRepository
             ->join('t_users', 't_important_communications.ic_created_by_email', '=', 't_users.email')
             ->leftJoin('t_important_communication_read_flg', function ($join) use ($email) {
                 $join->on('ic_id', '=', 'icrf_ic_id')
-                    ->where('icrf_email', '=', $email)
-                    ->when(empty($filteredReadFlag), function ($query) {
-                        return $query->where('icrf_status', '=', 1);
-                    });
+                    ->where('icrf_email', '=', $email);
+            })
+            ->where(function ($query) use ($searchTitle) {
+                return $query->where('ic_title', 'like', "%{$searchTitle}%");
+            })
+            ->where(function ($query) use ($searchContent) {
+                return $query->where('ic_content', 'like', "%{$searchContent}%");
             })
             ->when(!empty($filteredUserEmails), function ($query) use ($filteredUserEmails) {
                 return $query->whereIn('ic_created_by_email', $filteredUserEmails);
@@ -103,10 +106,10 @@ class ImportantCommunicationRepository
                 return $query->whereIn('ic_category_id', $filteredCategoryIds);
             })
             ->when(!empty($filteredStartDate), function ($query) use ($filteredStartDate) {
-                return $query->where('ic_created_at', '>=', $filteredStartDate);
+                return $query->where('ic_deadline_at', '>=', $filteredStartDate);
             })
             ->when(!empty($filteredEndDate), function ($query) use ($filteredEndDate) {
-                return $query->where('ic_created_at', '<=', $filteredEndDate);
+                return $query->where('ic_deadline_at', '<=', $filteredEndDate);
             })
             ->paginate($count);
     }

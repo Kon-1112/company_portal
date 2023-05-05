@@ -59,9 +59,9 @@ class ImportantCommunicationsController extends Controller
     /**
      * 重要連絡を検索する
      * @param Request $request
-     * @return
+     * @return JsonResponse
      */
-    public function search(Request $request)
+    public function search(Request $request): JsonResponse
     {
         return response()->json([
             $this->importantCommunicationService->searchImportantCommunications($request->all(), 15),

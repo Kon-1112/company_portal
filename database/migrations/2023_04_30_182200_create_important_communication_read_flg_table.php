@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('t_important_communication_read_flg', function (Blueprint $table) {
             // ID
             $table->id('icrf_id');
-            // ステータス(1:既読, 2:保留)
-            $table->smallInteger('icrf_status');
             // 既読者のメールアドレス
             $table->string('icrf_email');
             $table->foreign('icrf_email')->references('email')->on('t_users');

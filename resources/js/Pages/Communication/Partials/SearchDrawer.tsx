@@ -1,34 +1,28 @@
 import React from "react";
-import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
-import {
-    Autocomplete,
-    Box,
-    Button,
-    Checkbox,
-    Drawer,
-    FormControlLabel,
-    IconButton,
-    TextField,
-    Typography
-} from "@mui/material";
+import {Autocomplete, Box, Button, Drawer, IconButton, TextField, Typography} from "@mui/material";
 import axios, {AxiosResponse} from "axios";
 import {User} from "@/types";
 import {Loading} from "@/Components/Loading";
-import {
-    ImportantCommunicationCategoryList,
-    ImportantCommunicationCategoryType
-} from "@/Const/Communication/ImportantCommunicatonCategory";
+import {ImportantCommunicationCategoryList, ImportantCommunicationCategoryType} from "@/Const/Communication/ImportantCommunicatonCategory";
 import Tooltip from "@mui/material/Tooltip";
 import {convertDateForTextInput} from "@/Common/Date";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 type Props = {
-    auth: any,
+    auth: {
+        user: User
+    },
     callback: any,
 }
 
-export const FilterDrawer = ({ auth, callback}: Props) => {
+export const SearchDrawer = React.memo(({ auth, callback }: Props) => {
 
     const [isOpenFilterDrawer, setIsOpenFilterDrawer]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = React.useState(false);
+
+    const [searchTitle, setSearchTitle]: [string, React.Dispatch<React.SetStateAction<any>>] = React.useState('');
+
+    const [searchContent, setSearchContent]: [string, React.Dispatch<React.SetStateAction<any>>] = React.useState('');
 
     const [allUsers, setAllUsers]: [User[], React.Dispatch<React.SetStateAction<any>>] = React.useState([]);
 
@@ -42,36 +36,33 @@ export const FilterDrawer = ({ auth, callback}: Props) => {
 
     const [selectedEndDate, setSelectedEndDate]: [string, React.Dispatch<React.SetStateAction<any>>] = React.useState('');
 
-    const [selectedReadFlag, setSelectedReadFlag]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = React.useState(false);
-
     const handleFilterDrawer = (): void => {
         setIsOpenFilterDrawer(!isOpenFilterDrawer);
     }
 
     const search = (): void => {
+        const selectStartDateTime: string = selectedStartDate + ' 00:00:00';
+        const selectEndDateTime: string = selectedEndDate + ' 23:59:59';
+        const params: any = {
+            email: auth.user.email,
+            searchTitle: searchTitle,
+            searchContent: searchContent,
+            selectedUsers: selectedUsers,
+            selectedCategories: selectedCategories,
+            selectedStartDate: selectedStartDate ? selectStartDateTime : '',
+            selectedEndDate: selectedEndDate ? selectEndDateTime : '',
+        }
+
+        setIsLoading(true);
         axios.get('/api/important-communications/search', {
-            params: {
-                email: auth.user.email,
-                selectedUsers: selectedUsers,
-                selectedCategories: selectedCategories,
-                selectedStartDate: selectedStartDate,
-                selectedEndDate: selectedEndDate,
-                selectedReadFlag: selectedReadFlag,
-            },
-        }).then((res: any): void => {
-            callback({
-                data: res.data[0],
-                params: {
-                    email: auth.user.email,
-                    selectedUsers: selectedUsers,
-                    selectedCategories: selectedCategories,
-                    selectedStartDate: selectedStartDate,
-                    selectedEndDate: selectedEndDate,
-                    selectedReadFlag: selectedReadFlag,
-                },
-            });
+            params: params,
+        }).then((res: AxiosResponse): void => {
+            console.log(res.data[0]);
+            callback({data: res.data[0], params: params});
+            setIsLoading(false);
         }).catch((err): void => {
             alert(err);
+            setIsLoading(false);
         });
     }
 
@@ -95,11 +86,8 @@ export const FilterDrawer = ({ auth, callback}: Props) => {
 
     return (
         <React.Fragment>
-            <IconButton
-                onClick={() => handleFilterDrawer()}
-                size="large"
-            >
-                <FilterAltRoundedIcon />
+            <IconButton onClick={() => handleFilterDrawer()}>
+                <SearchRoundedIcon />
             </IconButton>
             <Drawer
                 anchor='right'
@@ -107,9 +95,32 @@ export const FilterDrawer = ({ auth, callback}: Props) => {
                 onClose={() => handleFilterDrawer()}
             >
                 <Box className="w-[400px] p-4">
-                    <Typography variant="h6" className="font-bold text-lg">
-                        フィルタリング
-                    </Typography>
+                    <Box className="flex justify-between items-center">
+                        <Typography variant="h6" className="font-bold text-lg">
+                            検索
+                        </Typography>
+                        <IconButton onClick={() => handleFilterDrawer()}>
+                            <CloseRoundedIcon />
+                        </IconButton>
+                    </Box>
+                    <Box className="mt-4">
+                        <TextField
+                            className="w-full"
+                            label="タイトル検索"
+                            variant="outlined"
+                            value={searchTitle}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTitle(e.target.value)}
+                        />
+                    </Box>
+                    <Box className="mt-6">
+                        <TextField
+                            className="w-full"
+                            label="本文検索"
+                            variant="outlined"
+                            value={searchContent}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchContent(e.target.value)}
+                        />
+                    </Box>
                     {allUsers && allUsers.length > 0 && (
                         <Box className="mt-6">
                             <Tooltip title="投稿した社員名でフィルタリングします" placement="left">
@@ -180,9 +191,7 @@ export const FilterDrawer = ({ auth, callback}: Props) => {
                                     }
                                     setSelectedStartDate(e.target.value);
                                 }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                InputLabelProps={{shrink: true}}
                             />
                         </Tooltip>
                     </Box>
@@ -200,55 +209,40 @@ export const FilterDrawer = ({ auth, callback}: Props) => {
                                     }
                                     setSelectedEndDate(e.target.value);
                                 }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                InputLabelProps={{shrink: true}}
                             />
                         </Tooltip>
                     </Box>
-                    <Box className="mt-6">
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    color="blank"
-                                    checked={selectedReadFlag}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                                        setSelectedReadFlag(e.target.checked);
-                                    }}
-                                />
-                            }
-                            label="未読の投稿のみ表示する"
-                        />
-                    </Box>
                 </Box>
-            <Box className="flex justify-end p-4">
-                <Box className="mr-4">
+                <Box className="flex justify-end p-4">
+                    <Box className="mr-4">
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            size="large"
+                            onClick={() => {
+                                setSearchTitle('');
+                                setSearchContent('');
+                                setSelectedUsers([]);
+                                setSelectedCategories([]);
+                                setSelectedStartDate('');
+                                setSelectedEndDate('');
+                            }}
+                        >
+                            リセット
+                        </Button>
+                    </Box>
                     <Button
                         variant="contained"
-                        color="secondary"
+                        color="info"
                         size="large"
-                        onClick={() => {
-                            setSelectedUsers([]);
-                            setSelectedCategories([]);
-                            setSelectedStartDate('');
-                            setSelectedEndDate('');
-                            setSelectedReadFlag(false);
-                        }}
+                        onClick={() => search()}
                     >
-                        リセット
+                        検索
                     </Button>
                 </Box>
-                <Button
-                    variant="contained"
-                    color="info"
-                    size="large"
-                    onClick={() => search()}
-                >
-                    フィルタリング
-                </Button>
-            </Box>
+                <Loading show={isLoading} />
             </Drawer>
-            <Loading show={isLoading} />
         </React.Fragment>
     );
-}
+});
