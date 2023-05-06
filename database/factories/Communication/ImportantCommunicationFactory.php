@@ -25,14 +25,11 @@ class ImportantCommunicationFactory extends Factory
             'ic_category_id' => fake()->numberBetween(1, 7),
             'ic_created_by_email' => User::factory()->create()->email,
             'ic_updated_by_email' => User::factory()->create()->email,
-            'ic_deleted_by_email' => null,
-            'ic_delete_flag' => fake()->boolean,
             'ic_image_url' => fake()->imageUrl,
             'ic_target_json' => json_encode(['target1', 'target2']),
             'ic_draft_flag' => fake()->boolean,
             'ic_created_at' => now(),
             'ic_updated_at' => now(),
-            'ic_deleted_at' => null,
         ];
     }
 

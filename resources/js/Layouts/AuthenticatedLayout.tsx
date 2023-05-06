@@ -1,17 +1,10 @@
 import React, {ReactElement} from 'react';
 import { User } from '@/types';
-import {
-    AppBar,
-    Box,
-    Container,
-    createTheme, CssBaseline,
-    PaletteColorOptions,
-    Theme,
-    ThemeProvider,
-    Toolbar,
-    useMediaQuery
-} from "@mui/material";
+import {AppBar, Box, Container, createTheme, CssBaseline, PaletteColorOptions, Theme, ThemeProvider, Toolbar,} from "@mui/material";
 import {SideMenu} from "@/Components/SideMenu/SideMenu";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {jaJP} from "@/Common/jsJP";
 
 interface Palette {
     accent?: PaletteColorOptions;
@@ -51,6 +44,35 @@ declare module '@mui/material/Checkbox' {
 
 export default function Authenticated({ user, children, header }: React.PropsWithChildren<{ user: User, header: ReactElement }>) {
     const darkTheme: Theme = createTheme({
+        components: {
+            MuiAlert: {
+                styleOverrides: {
+                    icon: {
+                        fontSize: '1.4rem',
+                    },
+                    message: {
+                        fontSize: '0.8rem',
+                    },
+                    standardSuccess: {
+                        backgroundColor: '#007008',
+                        color: '#e9f8e9',
+                    },
+                    standardError: {
+                        backgroundColor: '#c30000',
+                        color: 'white'
+                    },
+                    standardWarning: {
+                        backgroundColor: '#b5620e',
+                        color: '#fdf5e9',
+                    },
+                    standardInfo: {
+                        backgroundColor: '#044178',
+                        color: '#dde2fb',
+                    }
+                }
+            },
+
+        },
         typography: {
             fontFamily: user.font_name ? [
                 user.font_name,
@@ -60,12 +82,12 @@ export default function Authenticated({ user, children, header }: React.PropsWit
         palette: {
             mode: 'dark',
             primary: {
-                main: '#424242',
-                contrastText: '#e0f1ff',
+                main: '#6a6a6a',
+                contrastText: '#ededed',
             },
             secondary: {
-                main: '#7c7c7c',
-                contrastText: '#deeeff',
+                main: '#4e4e4e',
+                contrastText: '#c8c8c8',
             },
             success: {
                 main: '#007008',
@@ -76,7 +98,7 @@ export default function Authenticated({ user, children, header }: React.PropsWit
                 contrastText: '#ffe4e4',
             },
             warning: {
-                main: '#ec7900',
+                main: '#cc6f13',
                 contrastText: '#fff5dc',
             },
             info: {
@@ -175,19 +197,21 @@ export default function Authenticated({ user, children, header }: React.PropsWit
     return (
         <ThemeProvider theme={user.theme_mode === 'dark' ? darkTheme : lightTheme}>
             <CssBaseline />
-            <Box className="flex flex-row w-full overflow-hidden">
-                <SideMenu user={user}/>
-                <Box className="flex flex-col w-full">
-                    <AppBar position="static" color="transparent">
-                        <Container maxWidth="xl">
-                            <Toolbar disableGutters>
-                                {header}
-                            </Toolbar>
-                        </Container>
-                    </AppBar>
-                    <Box>{children}</Box>
+            <LocalizationProvider dateAdapter={AdapterDayjs} localeText={jaJP.components.MuiLocalizationProvider.defaultProps.localeText}>
+                <Box className="flex flex-row w-full overflow-hidden">
+                    <SideMenu user={user}/>
+                    <Box className="flex flex-col w-full">
+                        <AppBar position="static" color="transparent">
+                            <Container maxWidth="xl">
+                                <Toolbar disableGutters>
+                                    {header}
+                                </Toolbar>
+                            </Container>
+                        </AppBar>
+                        <Box>{children}</Box>
+                    </Box>
                 </Box>
-            </Box>
+            </LocalizationProvider>
         </ThemeProvider>
     );
 }

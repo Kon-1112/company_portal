@@ -46,6 +46,12 @@ export interface User {
     remember_token: string;
 }
 
+export type BaseCommonProps = {
+    auth: {
+        user: User;
+    }
+}
+
 /**
  * メニューカテゴリーリスト
  * @interface MenuCategoryList

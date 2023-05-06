@@ -9,11 +9,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('important-communication/read', [ImportantCommunicationsController::class, 'read']);
-
-Route::get('important-communications/search', [ImportantCommunicationsController::class, 'search']);
-
 // 全ユーザーの一覧を取得する
 Route::get('/users', function () {
     return User::all();
 });
+
+// 重要連絡を取得する
+Route::get('important-communications/search', [ImportantCommunicationsController::class, 'search']);
+
+// ソート
+Route::get('important-communications/sort', [ImportantCommunicationsController::class, 'sort']);
+
+// 重要連絡を既読・未読にする
+Route::post('important-communications/read', [ImportantCommunicationsController::class, 'read']);
+
+// 重要連絡を作成する
+Route::post('important-communications/create', [ImportantCommunicationsController::class, 'create']);
+
+// 重要連絡を更新する
+Route::put('important-communications/{id}', [ImportantCommunicationsController::class, 'update']);
+
+// 重要連絡を削除する
+Route::delete('important-communications/{id}', [ImportantCommunicationsController::class, 'destroy']);

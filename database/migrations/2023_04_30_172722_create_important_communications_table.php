@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('ic_deleted_by_email')->nullable();
             $table->foreign('ic_deleted_by_email')->references('email')->on('t_users');
             // 重要連絡削除フラグ false:未削除 true:削除
-            $table->boolean('ic_delete_flag')->default(false);
+            $table->boolean('ic_deleted_flag')->default(false);
             // 画像のURL
             $table->string('ic_image_url', 100)->nullable();
             // 重要連絡対象のJSON
